@@ -164,7 +164,7 @@ function VoucherPage() {
   };
 
   return (
-    <div className="p-4 md:p-6">
+    <div className="p-4 md:p-6 flex flex-col w-full">
       <div className="mb-4 md:mb-5 flex justify-between items-center">
         <h1 className="text-xl font-bold">વાઉચર એન્ટ્રી</h1>
         <Button onClick={handleAddNew} disabled={isEditable} variant="accent">નવું ઉમેરો</Button>
@@ -346,7 +346,6 @@ function VoucherPage() {
       <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <div className="flex flex-wrap justify-between items-center mb-4">
           <div className="flex gap-2">
-             <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
@@ -366,6 +365,7 @@ function VoucherPage() {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
+             <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
               <Button onClick={handleEdit} disabled={isEditable} variant="standard" className="text-base"><Edit className="h-4 w-4" /></Button>
           </div>
           <div className="flex gap-2">
