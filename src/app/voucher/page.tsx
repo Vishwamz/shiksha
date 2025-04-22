@@ -334,15 +334,17 @@ function VoucherPage() {
                 <Button onClick={handleSave} disabled={!isEditable} className="text-base">સેવ કરો</Button>
                 <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
             </div>
+              <div className="flex">
+                  <Button onClick={handleCopy} disabled={isEditable} className="text-base"><Copy className="h-4 w-4" /></Button>
+                  <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
+              </div>
         </div>
-          {/*Navigation Buttons*/}
+        {/*Navigation Buttons*/}
         <div className="flex justify-center gap-2 mt-4">
           <Button onClick={handleNavigateFirst} disabled={isEditable} className="text-base">&lt;&lt;</Button>
           <Button onClick={handleNavigatePrevious} disabled={isEditable} className="text-base">&lt;</Button>
           <Button onClick={handleNavigateNext} disabled={isEditable} className="text-base">&gt;</Button>
           <Button onClick={handleNavigateLast} disabled={isEditable} className="text-base">&gt;&gt;</Button>
-          <Button onClick={handleCopy} disabled={isEditable} className="text-base"><Copy className="h-4 w-4" /></Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
         </div>
     </div>
   );
