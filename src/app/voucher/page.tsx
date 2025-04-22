@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from "react";
@@ -155,7 +154,7 @@ function VoucherPage() {
 
   return (
     <div className="p-4 md:p-6">
-      <div className="mb-4 md:mb-5 flex justify-between">
+      <div className="mb-4 md:mb-5 flex justify-between items-center">
         <h1 className="text-xl font-bold">વાઉચર એન્ટ્રી</h1>
         <Button onClick={handleAddNew} disabled={isEditable}>નવું ઉમેરો</Button>
       </div>
@@ -163,7 +162,7 @@ function VoucherPage() {
       {/* Header Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4 md:mb-5">
         <div>
-          <Label htmlFor="voucherType">પાવતીનો પ્રકાર</Label>
+          <Label htmlFor="voucherType" className="text-base">પાવતીનો પ્રકાર</Label>
           <Select disabled={!isEditable} onValueChange={handleVoucherTypeChange}>
             <SelectTrigger className="text-sm">
               <SelectValue placeholder="પાવતીનો પ્રકાર પસંદ કરો" />
@@ -177,7 +176,7 @@ function VoucherPage() {
           </Select>
         </div>
         <div>
-          <Label htmlFor="transactionType">લેવડદેવડનો પ્રકાર</Label>
+          <Label htmlFor="transactionType" className="text-base">લેવડદેવડનો પ્રકાર</Label>
           <Select disabled={!isEditable} onValueChange={handleTransactionTypeChange}>
             <SelectTrigger className="text-sm">
               <SelectValue placeholder="લેવડદેવડનો પ્રકાર પસંદ કરો" />
@@ -189,7 +188,7 @@ function VoucherPage() {
           </Select>
         </div>
         <div>
-          <Label htmlFor="date">તારીખ</Label>
+          <Label htmlFor="date" className="text-base">તારીખ</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -216,7 +215,7 @@ function VoucherPage() {
             </Popover>
         </div>
         <div>
-          <Label htmlFor="voucherNumber">વાઉચર નં</Label>
+          <Label htmlFor="voucherNumber" className="text-base">વાઉચર નં</Label>
           <Input id="voucherNumber" type="text" value={voucherNumber} disabled className="text-sm"/>
         </div>
       </div>
@@ -225,7 +224,7 @@ function VoucherPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-5">
         {/* Credit Entries */}
         <div>
-          <Label>જમા ખાતે</Label>
+          <Label className="text-lg">જમા ખાતે</Label>
           <ScrollArea className="h-[300px] w-full rounded-md border p-3">
             {creditEntries.map((entry) => (
               <div key={entry.id} className="mb-3 flex flex-col gap-2">
@@ -267,7 +266,7 @@ function VoucherPage() {
 
         {/* Debit Entries */}
         <div>
-          <Label>ઉધાર ખાતે</Label>
+          <Label className="text-lg">ઉધાર ખાતે</Label>
           <ScrollArea className="h-[300px] w-full rounded-md border p-3">
             {debitEntries.map((entry) => (
               <div key={entry.id} className="mb-3 flex flex-col gap-2">
@@ -311,42 +310,42 @@ function VoucherPage() {
       {/* Balances and Totals */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4 md:mb-5">
         <div>
-          <Label>ખુલતી સિલક</Label>
+          <Label className="text-base">ખુલતી સિલક</Label>
           <Input type="text" value={openingBalance} disabled className="text-sm"/>
         </div>
         <div>
-          <Label>કુલ જમા</Label>
+          <Label className="text-base">કુલ જમા</Label>
           <Input type="text" value={totalCredit} disabled className="text-sm"/>
         </div>
         <div>
-          <Label>કુલ ઉધાર</Label>
+          <Label className="text-base">કુલ ઉધાર</Label>
           <Input type="text" value={totalDebit} disabled className="text-sm"/>
         </div>
         <div>
-          <Label>બંધ સિલક</Label>
+          <Label className="text-base">બંધ સિલક</Label>
           <Input type="text" value={closingBalance} disabled className="text-sm"/>
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap justify-between gap-2">
-        <div>
-          <Button onClick={handleEdit} disabled={isEditable}>એડિટ કરો</Button>
-          <Button onClick={handleSave} disabled={!isEditable}>સેવ કરો</Button>
-          <Button variant="secondary" onClick={handleCancel} disabled={!isEditable}>રદ કરો</Button>
+        <div className="flex flex-wrap justify-between gap-2">
+            <div>
+                <Button onClick={handleEdit} disabled={isEditable} className="text-base">એડિટ કરો</Button>
+                <Button onClick={handleSave} disabled={!isEditable} className="text-base">સેવ કરો</Button>
+                <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
+            </div>
         </div>
-        <div>
-          <Button onClick={handleNavigateFirst} disabled={isEditable}>&lt;&lt;</Button>
-          <Button onClick={handleNavigatePrevious} disabled={isEditable}>&lt;</Button>
-          <Button onClick={handleNavigateNext} disabled={isEditable}>&gt;</Button>
-          <Button onClick={handleNavigateLast} disabled={isEditable}>&gt;&gt;</Button>
-          <Button onClick={handleCopy} disabled={isEditable}><Copy className="h-4 w-4" /></Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={isEditable}><Trash2 className="h-4 w-4" /></Button>
+          {/*Navigation Buttons*/}
+        <div className="flex justify-center gap-2 mt-4">
+          <Button onClick={handleNavigateFirst} disabled={isEditable} className="text-base">&lt;&lt;</Button>
+          <Button onClick={handleNavigatePrevious} disabled={isEditable} className="text-base">&lt;</Button>
+          <Button onClick={handleNavigateNext} disabled={isEditable} className="text-base">&gt;</Button>
+          <Button onClick={handleNavigateLast} disabled={isEditable} className="text-base">&gt;&gt;</Button>
+          <Button onClick={handleCopy} disabled={isEditable} className="text-base"><Copy className="h-4 w-4" /></Button>
+          <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
         </div>
-      </div>
     </div>
   );
 }
 
 export default VoucherPage;
-    
