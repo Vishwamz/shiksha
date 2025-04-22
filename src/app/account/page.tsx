@@ -9,6 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Icons } from "@/components/icons";
 
 function AccountPage() {
   const { toast } = useToast();
@@ -24,7 +25,7 @@ function AccountPage() {
   const [groupName, setGroupName] = useState("");
   const [groupType, setGroupType] = useState("");
   const [isGroupFormEditable, setIsGroupFormEditable] = useState(false);
-  const [latestGroupCode, setLatestGroupCode] = useState(accountGroups.length);
+  const [latestGroupCode, setLatestGroupCode] = useState(accountGroups.length > 0 ? Math.max(...accountGroups.map(g => g.code)) : 0); // Initialize with the highest existing code
 
   // State variables for Account Master
   const [accounts, setAccounts] = useState([
@@ -42,7 +43,7 @@ function AccountPage() {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [isAccountFormEditable, setIsAccountFormEditable] = useState(false);
-  const [latestAccountCode, setLatestAccountCode] = useState(accounts.length);
+    const [latestAccountCode, setLatestAccountCode] = useState(accounts.length > 0 ? Math.max(...accounts.map(a => a.code)) : 0);
 
   // Validation error state
   const [groupNameError, setGroupNameError] = useState("");
@@ -201,6 +202,7 @@ function AccountPage() {
             : account
         );
         setAccounts(updatedAccounts);
+                setLatestAccountCode(latestAccountCode)
         toast({
           title: "સફળ",
           description: "એકાઉન્ટ સફળતાપૂર્વક અપડેટ થયું.",
@@ -219,7 +221,7 @@ function AccountPage() {
           phone: phone,
         };
         setAccounts([...accounts, newAccount]);
-        setLatestAccountCode(newAccountCode); // Update latest code
+        setLatestAccountCode(newAccountCode);
         toast({
           title: "સફળ",
           description: "નવું એકાઉન્ટ સફળતાપૂર્વક ઉમેરાયું.",
@@ -294,6 +296,14 @@ function AccountPage() {
       setPhone(selectedAccount.phone);
     }
   }, [selectedAccount]);
+
+    useEffect(() => {
+        setLatestGroupCode(accountGroups.length > 0 ? Math.max(...accountGroups.map(g => g.code)) : 0);
+    }, [accountGroups]);
+
+    useEffect(() => {
+        setLatestAccountCode(accounts.length > 0 ? Math.max(...accounts.map(a => a.code)) : 0);
+    }, [accounts]);
 
   return (
     <div className="flex flex-col h-screen">
