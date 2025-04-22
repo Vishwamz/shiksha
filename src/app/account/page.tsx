@@ -21,10 +21,10 @@ function AccountPage() {
     { id: 4, code: 4, name: "Expenses Direct", type: "Derived Group" },
   ]);
   const [selectedAccountGroup, setSelectedAccountGroup] = useState(null);
-  const [newGroupCode, setNewGroupCode] = useState(accountGroups.length + 1);
   const [groupName, setGroupName] = useState("");
   const [groupType, setGroupType] = useState("");
   const [isGroupFormEditable, setIsGroupFormEditable] = useState(false);
+  const [latestGroupCode, setLatestGroupCode] = useState(accountGroups.length);
 
   // State variables for Account Master
   const [accounts, setAccounts] = useState([
@@ -34,7 +34,6 @@ function AccountPage() {
     { id: 4, code: 4, group: "Expenses Direct", name: "Account name 4", type: "વ્યક્તિ/વેપારી ખાતુ", effect: "સરવૈયામાં", openingBalance: 4000, address: "Address 4", phone: "+91-6677889900" },
   ]);
   const [selectedAccount, setSelectedAccount] = useState(null);
-  const [newAccountCode, setNewAccountCode] = useState(accounts.length + 1);
   const [accountGroup, setAccountGroup] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountType, setAccountType] = useState("");
@@ -43,15 +42,21 @@ function AccountPage() {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [isAccountFormEditable, setIsAccountFormEditable] = useState(false);
+  const [latestAccountCode, setLatestAccountCode] = useState(accounts.length);
 
   // Validation error state
   const [groupNameError, setGroupNameError] = useState("");
   const [accountNameError, setAccountNameError] = useState("");
 
+  // Derived state for new group code
+  const newGroupCode = latestGroupCode + 1;
+
+  // Derived state for new account code
+  const newAccountCode = latestAccountCode + 1;
+
   // Account Group Handlers
   const handleAddGroup = () => {
     setIsGroupFormEditable(true);
-    setNewGroupCode(accountGroups.length > 0 ? accountGroups[accountGroups.length - 1].code + 1 : 1);
     setGroupName("");
     setGroupType("");
     setSelectedAccountGroup(null);
@@ -93,12 +98,13 @@ function AccountPage() {
       } else {
         // Adding new group
         const newGroup = {
-          id: accountGroups.length + 1,
+          id: newGroupCode,
           code: newGroupCode,
           name: groupName,
           type: groupType,
         };
         setAccountGroups([...accountGroups, newGroup]);
+        setLatestGroupCode(newGroupCode); // Update latest code
         toast({
           title: "સફળ",
           description: "નવું એકાઉન્ટ જૂથ સફળતાપૂર્વક ઉમેરાયું.",
@@ -146,7 +152,6 @@ function AccountPage() {
   // Account Master Handlers
   const handleAddAccount = () => {
     setIsAccountFormEditable(true);
-    setNewAccountCode(accounts.length > 0 ? accounts[accounts.length - 1].code + 1 : 1);
     setAccountGroup("");
     setAccountName("");
     setAccountType("");
@@ -203,7 +208,7 @@ function AccountPage() {
       } else {
         // Adding new account
         const newAccount = {
-          id: accounts.length + 1,
+          id: newAccountCode,
           code: newAccountCode,
           group: accountGroup,
           name: accountName,
@@ -214,6 +219,7 @@ function AccountPage() {
           phone: phone,
         };
         setAccounts([...accounts, newAccount]);
+        setLatestAccountCode(newAccountCode); // Update latest code
         toast({
           title: "સફળ",
           description: "નવું એકાઉન્ટ સફળતાપૂર્વક ઉમેરાયું.",
