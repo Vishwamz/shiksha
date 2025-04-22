@@ -2,8 +2,8 @@
 
 function AccountPage() {
   return (
-    <div>
-      <h1>Account Management</h1>
+    <div className="p-4">
+      <h1>એકાઉન્ટ મેનેજમેન્ટ</h1>
       {/* Account management content goes here */}
     </div>
   );
