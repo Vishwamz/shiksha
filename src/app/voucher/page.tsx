@@ -328,17 +328,18 @@ function VoucherPage() {
       </div>
 
       {/* Action Buttons */}
-        <div className="flex flex-wrap justify-between gap-2">
-            <div>
-                <Button onClick={handleEdit} disabled={isEditable} className="text-base">એડિટ કરો</Button>
-                <Button onClick={handleSave} disabled={!isEditable} className="text-base">સેવ કરો</Button>
-                <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
-            </div>
-              <div className="flex">
-                  <Button onClick={handleCopy} disabled={isEditable} className="text-base"><Copy className="h-4 w-4" /></Button>
-                  <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
-              </div>
+      <div className="flex flex-wrap justify-between items-center mb-4">
+        <div className="flex gap-2">
+          <Button onClick={handleEdit} disabled={isEditable} className="text-base">એડિટ કરો</Button>
+          <Button onClick={handleSave} disabled={!isEditable} className="text-base">સેવ કરો</Button>
+          <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
         </div>
+        <div className="flex gap-2">
+          <Button onClick={handleCopy} disabled={isEditable} className="text-base"><Copy className="h-4 w-4" /></Button>
+          <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
+        </div>
+      </div>
+
         {/*Navigation Buttons*/}
         <div className="flex justify-center gap-2 mt-4">
           <Button onClick={handleNavigateFirst} disabled={isEditable} className="text-base">&lt;&lt;</Button>
