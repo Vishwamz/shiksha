@@ -9,14 +9,14 @@ body {
 
 @layer base {
   :root {
-    --background: 220 14% 96%; /*#fafafa Light off-white */
-    --foreground: 0 0% 20%;   /*#333333 Dark Grey */
-    --card: 220 14% 96%;
+    --background: 220 20% 98%; /* #fafafa Light off-white */
+    --foreground: 0 0% 20%;   /* #333333 Dark Grey */
+    --card: 0 0% 100%; /* #ffffff White - Contrast Background */
     --card-foreground: 0 0% 20%;
-    --popover: 220 14% 96%;
+    --popover: 220 20% 98%;
     --popover-foreground: 0 0% 20%;
-    --primary: 217 71% 54%;    /*#3584e4 GNOME Blue */
-    --primary-foreground: 0 0% 100%; /*#ffffff White */
+    --primary: 217 71% 54%;    /* #3584e4 GNOME Blue */
+    --primary-foreground: 0 0% 100%; /* #ffffff White */
     --secondary: 220 14% 88%; /*#e0e0e0 Light Grey*/
     --secondary-foreground: 0 0% 20%;
     --muted: 220 14% 88%;
@@ -34,14 +34,18 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 220 14% 96%;
+    --sidebar-background: 220 13% 95%; /* #f5f5f5 Slightly darker than base */
     --sidebar-foreground: 0 0% 20%;
     --sidebar-primary: 217 71% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 14% 88%;
     --sidebar-accent-foreground: 0 0% 20%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 0 0% 80%; /* #cccccc borders */
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --button-standard: 220 13% 88%; /* #e0e0e0 Standard Button Background */
+    --button-disabled: 220 10% 93%; /* #eeeeee Disabled Button Background */
+    --text-muted: 0 0% 40%; /* #666666 Secondary/Muted Text */
+    --text-disabled: 0 0% 65%; /* #aaaaaa Disabled Text/Elements */
   }
   .dark {
     --background: 0 0% 15%;  /*Dark variant of Light off-white */
@@ -76,6 +80,10 @@ body {
     --sidebar-accent-foreground: 0 0% 85%;
     --sidebar-border: 0 0% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+     --button-standard: 0 0% 30%; /* Dark variant of Standard Button Background */
+    --button-disabled: 0 0% 20%; /* Dark variant of Disabled Button Background */
+    --text-muted: 0 0% 60%; /* Dark variant of Muted Text */
+    --text-disabled: 0 0% 50%; /* Dark variant of Disabled Text */
   }
 }
 
@@ -98,5 +106,3 @@ body {
     @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50; /* base input and text area */
   }
 }
-
-    

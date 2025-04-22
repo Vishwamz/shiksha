@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -137,7 +136,7 @@ function SetupPage() {
     <div className="flex flex-col items-center justify-center min-h-screen p-4 md:p-6">
       <h1 className="text-3xl font-bold mb-5 md:mb-7">પ્રારંભિક સેટઅપ</h1>
       {step === 1 && (
-        <div className="border rounded-md w-full max-w-md p-4 md:p-6">
+        <div className="border rounded-md w-full max-w-md p-4 md:p-6 bg-card">
           <h2 className="text-xl mb-3">એડમિન એકાઉન્ટ બનાવો</h2>
           <div className="mb-3">
             <Label htmlFor="username" className="text-base">યુઝરનેમ</Label>
@@ -174,13 +173,13 @@ function SetupPage() {
           </div>
           <div className="flex justify-between">
             <Button variant="secondary" onClick={handleCancel} className="h-10 w-24">રદ કરો</Button>
-            <Button onClick={handleNext} className="h-10 w-24">આગળ</Button>
+            <Button onClick={handleNext} className="h-10 w-24 variant=standard">આગળ</Button>
           </div>
         </div>
       )}
 
       {step === 2 && (
-        <div className="border rounded-md w-full max-w-md p-4 md:p-6">
+        <div className="border rounded-md w-full max-w-md p-4 md:p-6 bg-card">
           <h2 className="text-xl mb-3">શાળાની વિગતો દાખલ કરો</h2>
           <div className="mb-3">
             <Label htmlFor="schoolName" className="text-base">શાળાનું નામ</Label>
@@ -248,18 +247,18 @@ function SetupPage() {
           </div>
           <div className="flex justify-between">
             <Button onClick={handleBack} className="h-10 w-24">પાછળ</Button>
-            <Button onClick={handleNext} className="h-10 w-24">આગળ</Button>
+            <Button onClick={handleNext} className="h-10 w-24 variant=standard">આગળ</Button>
           </div>
         </div>
       )}
 
       {step === 3 && (
-        <div className="border rounded-md w-full max-w-md p-4 md:p-6">
+        <div className="border rounded-md w-full max-w-md p-4 md:p-6 bg-card">
           <h2 className="text-xl mb-3">નાણાકીય વર્ષની પુષ્ટિ કરો</h2>
           <p className="mb-3 text-base">નાણાકીય વર્ષ {financialYear} રહેશે</p>
           <div className="flex justify-between">
             <Button onClick={handleBack} className="h-10 w-24">પાછળ</Button>
-            <Button onClick={handleSetupComplete} className="h-10 w-24">પૂર્ણ કરો</Button>
+            <Button onClick={handleSetupComplete} className="h-10 w-24 variant=standard">પૂર્ણ કરો</Button>
           </div>
           <Button variant="secondary" onClick={handleCancel} className="h-10 w-24 mt-3">રદ કરો</Button>
         </div>
@@ -269,4 +268,3 @@ function SetupPage() {
 }
 
 export default SetupPage;
-    

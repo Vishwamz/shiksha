@@ -308,7 +308,7 @@ function AccountPage() {
   return (
     <div className="flex flex-col min-h-screen p-4"> {/* Added padding to the main container */}
       {/* Account Group Section */}
-      <div className="border rounded-md mb-4 p-4"> {/* Increased padding and margin */}
+      <div className="border rounded-md mb-4 p-4 bg-card"> {/* Increased padding and margin */}
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">એકાઉન્ટ જૂથ</h2>
           <Button onClick={handleAddGroup} disabled={isGroupFormEditable}>નવું ઉમેરો</Button>
@@ -386,7 +386,7 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[200px] w-full rounded-md border mt-2 mb-4">
+            <ScrollArea className="h-[300px] w-full rounded-md border mt-2">
               <div className="p-3">
                 {accountGroups.map((group) => (
                   <div
@@ -407,7 +407,7 @@ function AccountPage() {
       </div>
 
       {/* Account Master Section */}
-      <div className="border rounded-md mb-4 p-4"> {/* Increased padding and margin */}
+      <div className="border rounded-md mb-4 p-4 bg-card"> {/* Increased padding and margin */}
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">એકાઉન્ટ માસ્ટર</h2>
           <Button onClick={handleAddAccount} disabled={isAccountFormEditable}>નવું ઉમેરો</Button>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -73,7 +72,7 @@ function SettingsPage() {
       <h1 className="text-2xl font-bold mb-4 md:mb-6">સેટિંગ્સ</h1>
 
       {/* School Details Section */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">શાળાની વિગતો</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
@@ -104,7 +103,7 @@ function SettingsPage() {
       </div>
 
       {/* Financial Year Section */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">નાણાકીય વર્ષ</h2>
         <Dialog>
           <DialogTrigger asChild>
@@ -125,7 +124,7 @@ function SettingsPage() {
       </div>
 
       {/* User Details Section */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">વપરાશકર્તાની વિગતો</h2>
         <div>
           <Label className="text-base">યુઝરનેમ</Label>
@@ -191,4 +190,3 @@ function SettingsPage() {
 }
 
 export default SettingsPage;
-    

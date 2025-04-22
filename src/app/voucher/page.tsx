@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
@@ -156,7 +156,7 @@ function VoucherPage() {
     <div className="p-4 md:p-6">
       <div className="mb-4 md:mb-5 flex justify-between items-center">
         <h1 className="text-xl font-bold">વાઉચર એન્ટ્રી</h1>
-        <Button onClick={handleAddNew} disabled={isEditable}>નવું ઉમેરો</Button>
+        <Button onClick={handleAddNew} disabled={isEditable} variant="standard">નવું ઉમેરો</Button>
       </div>
 
       {/* Header Section */}
@@ -261,7 +261,7 @@ function VoucherPage() {
               </div>
             ))}
           </ScrollArea>
-          <Button onClick={handleAddCreditEntry} disabled={!isEditable} className="mt-3"> + જમા લાઇન ઉમેરો</Button>
+          <Button onClick={handleAddCreditEntry} disabled={!isEditable} variant="standard" className="mt-3"> + જમા લાઇન ઉમેરો</Button>
         </div>
 
         {/* Debit Entries */}
@@ -303,7 +303,7 @@ function VoucherPage() {
               </div>
             ))}
           </ScrollArea>
-          <Button onClick={handleAddDebitEntry} disabled={!isEditable} className="mt-3">+ ઉધાર લાઇન ઉમેરો</Button>
+          <Button onClick={handleAddDebitEntry} disabled={!isEditable} variant="standard" className="mt-3">+ ઉધાર લાઇન ઉમેરો</Button>
         </div>
       </div>
 
@@ -330,22 +330,22 @@ function VoucherPage() {
       {/* Action Buttons */}
       <div className="flex flex-wrap justify-between items-center mb-4">
         <div className="flex gap-2">
-          <Button onClick={handleEdit} disabled={isEditable} className="text-base">એડિટ કરો</Button>
-          <Button onClick={handleSave} disabled={!isEditable} className="text-base">સેવ કરો</Button>
+          <Button onClick={handleEdit} disabled={isEditable} variant="standard" className="text-base">એડિટ કરો</Button>
+          <Button onClick={handleSave} disabled={!isEditable} variant="standard" className="text-base">સેવ કરો</Button>
           <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleCopy} disabled={isEditable} className="text-base"><Copy className="h-4 w-4" /></Button>
+          <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
           <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
         </div>
       </div>
 
         {/*Navigation Buttons*/}
         <div className="flex justify-center gap-2 mt-4">
-          <Button onClick={handleNavigateFirst} disabled={isEditable} className="text-base">&lt;&lt;</Button>
-          <Button onClick={handleNavigatePrevious} disabled={isEditable} className="text-base">&lt;</Button>
-          <Button onClick={handleNavigateNext} disabled={isEditable} className="text-base">&gt;</Button>
-          <Button onClick={handleNavigateLast} disabled={isEditable} className="text-base">&gt;&gt;</Button>
+          <Button onClick={handleNavigateFirst} disabled={isEditable} variant="standard" className="text-base">&lt;&lt;</Button>
+          <Button onClick={handleNavigatePrevious} disabled={isEditable} variant="standard" className="text-base">&lt;</Button>
+          <Button onClick={handleNavigateNext} disabled={isEditable} variant="standard" className="text-base">&gt;</Button>
+          <Button onClick={handleNavigateLast} disabled={isEditable} variant="standard" className="text-base">&gt;&gt;</Button>
         </div>
     </div>
   );

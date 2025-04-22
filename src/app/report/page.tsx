@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,7 @@ function ReportPage() {
       <h1 className="text-2xl font-bold mb-4 md:mb-6">રિપોર્ટ જનરેશન</h1>
 
       {/* Account List */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">ખાતાની યાદી</h2>
         <div className="flex items-center space-x-3 mb-3">
           <Label htmlFor="accountListGroupName" className="text-base">જુથનું નામ</Label>
@@ -55,7 +55,7 @@ function ReportPage() {
       </div>
 
       {/* Voucher Report */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">વાઉચર રિપોર્ટ</h2>
         <div className="mb-3">
           <Label htmlFor="voucherReportVoucherNo" className="text-base">વાઉચર નં</Label>
@@ -65,7 +65,7 @@ function ReportPage() {
       </div>
 
       {/* General Account Ledger */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">સામાન્ય ખાતાવહી</h2>
         <div className="mb-3">
           <Label htmlFor="generalAccountLedgerAccountName" className="text-base">ખાતાનું નામ</Label>
@@ -142,7 +142,7 @@ function ReportPage() {
       </div>
 
       {/* Day Book */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">રોજમેળ</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
@@ -200,7 +200,7 @@ function ReportPage() {
       </div>
 
       {/* Monthly Tarij */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">માસિક સરવાળા</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
@@ -246,7 +246,7 @@ function ReportPage() {
               <PopoverContent className="w-auto p-0" align="start" side="bottom">
                 <Calendar
                   mode="single"
-                  selected={monthlyTarijToDate}
+                  selected={monthlyTarijFromDate}
                   onSelect={setMonthlyTarijToDate}
                   // initialFocus
                 />
@@ -258,7 +258,7 @@ function ReportPage() {
       </div>
 
       {/* Profit and loss Account */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">નફા નુકશાન ખાતુ</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
@@ -304,7 +304,7 @@ function ReportPage() {
               <PopoverContent className="w-auto p-0" align="start" side="bottom">
                 <Calendar
                   mode="single"
-                  selected={profitLossAccountToDate}
+                  selected={profitLossAccountFromDate}
                   onSelect={setProfitLossAccountToDate}
                   // initialFocus
                 />
@@ -316,7 +316,7 @@ function ReportPage() {
       </div>
 
       {/* Balance Sheet */}
-      <div className="border rounded-md p-4 mb-4 md:mb-5">
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <h2 className="text-xl font-semibold mb-3">સરવૈયું</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
@@ -338,7 +338,7 @@ function ReportPage() {
                 <Calendar
                   mode="single"
                   selected={balanceSheetFromDate}
-                  onSelect={setBalanceSheetFromDate}
+                  onSelect={setBalanceSheetToDate}
                   // initialFocus
                 />
               </PopoverContent>
@@ -377,4 +377,3 @@ function ReportPage() {
 }
 
 export default ReportPage;
-    
