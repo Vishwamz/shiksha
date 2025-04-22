@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Copy, Trash2 } from "lucide-react";
+import { CalendarIcon, Copy, Edit, Trash2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   AlertDialog,
@@ -346,12 +346,12 @@ function VoucherPage() {
       <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
         <div className="flex flex-wrap justify-between items-center mb-4">
           <div className="flex gap-2">
-            <Button onClick={handleEdit} disabled={isEditable} variant="standard" className="text-base">એડિટ કરો</Button>
+            
             <Button onClick={handleSave} disabled={!isEditable} variant="accent" className="text-base">સેવ કરો</Button>
             <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
           </div>
           <div className="flex gap-2">
-            <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
+             <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
@@ -371,6 +371,7 @@ function VoucherPage() {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
+              <Button onClick={handleEdit} disabled={isEditable} variant="standard" className="text-base"><Edit className="h-4 w-4" /></Button>
           </div>
         </div>
 
