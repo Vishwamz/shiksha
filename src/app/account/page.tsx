@@ -1,6 +1,4 @@
 
-"use client";
-
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -387,7 +385,7 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[300px] w-full rounded-md border mt-2">
+            <ScrollArea className="h-[300px] w-full rounded-md border mt-2 mb-4">
               <div className="p-3">
                 {accountGroups.map((group) => (
                   <div
@@ -542,7 +540,7 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[350px] w-full rounded-md border mt-2">
+            <ScrollArea className="h-[350px] w-full rounded-md border mt-2 mb-4">
               <div className="p-3">
                 {accounts.map((account) => (
                   <div
@@ -566,4 +564,3 @@ function AccountPage() {
 }
 
 export default AccountPage;
-    
