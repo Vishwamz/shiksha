@@ -167,7 +167,7 @@ function VoucherPage() {
     <div className="p-4 md:p-6 flex flex-col w-full">
       <div className="mb-4 md:mb-5 flex justify-between items-center">
         <h1 className="text-xl font-bold">વાઉચર એન્ટ્રી</h1>
-        <Button onClick={handleAddNew} disabled={isEditable} variant="accent">નવું ઉમેરો</Button>
+        <Button onClick={handleAddNew} disabled={isEditable} variant="standard">નવું ઉમેરો</Button>
       </div>
 
       {/* Header Section */}

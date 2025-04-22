@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,7 +41,7 @@ body {
     --sidebar-accent-foreground: 0 0% 20%;
     --sidebar-border: 0 0% 80%; /* #cccccc borders */
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --button-standard: 220 13% 88%; /* #e0e0e0 Standard Button Background */
+    --button-standard: 217 71% 54%; /* #e0e0e0 Standard Button Background */
     --button-disabled: 220 10% 93%; /* #eeeeee Disabled Button Background */
     --text-muted: 0 0% 40%; /* #666666 Secondary/Muted Text */
     --text-disabled: 0 0% 65%; /* #aaaaaa Disabled Text/Elements */
@@ -80,7 +79,7 @@ body {
     --sidebar-accent-foreground: 0 0% 85%;
     --sidebar-border: 0 0% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-     --button-standard: 0 0% 30%; /* Dark variant of Standard Button Background */
+     --button-standard: 217 71% 54%; /* Dark variant of Standard Button Background */
     --button-disabled: 0 0% 20%; /* Dark variant of Disabled Button Background */
     --text-muted: 0 0% 60%; /* Dark variant of Muted Text */
     --text-disabled: 0 0% 50%; /* Dark variant of Disabled Text */
