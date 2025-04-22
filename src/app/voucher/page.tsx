@@ -167,7 +167,7 @@ function VoucherPage() {
     <div className="p-4 md:p-6 flex flex-col w-full">
       <div className="mb-4 md:mb-5 flex justify-between items-center">
         <h1 className="text-xl font-bold">વાઉચર એન્ટ્રી</h1>
-        <Button onClick={handleAddNew} disabled={isEditable} variant="standard">નવું ઉમેરો</Button>
+        <Button onClick={handleAddNew} disabled={isEditable} variant="primary">નવું ઉમેરો</Button>
       </div>
 
       {/* Header Section */}
@@ -370,7 +370,7 @@ function VoucherPage() {
           </div>
           <div className="flex gap-2">
             
-            <Button onClick={handleSave} disabled={!isEditable} variant="accent" className="text-base">સેવ કરો</Button>
+            <Button onClick={handleSave} disabled={!isEditable} variant="primary" className="text-base">સેવ કરો</Button>
             <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
           </div>
         </div>
