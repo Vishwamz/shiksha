@@ -1,4 +1,4 @@
-{"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
@@ -153,14 +153,14 @@ function VoucherPage() {
   };
 
   return (
-    <div className="p-6"> {/* Increased padding around the page */}
-      <div className="mb-5 flex justify-between"> {/* Increased margin bottom */}
-        <h1 className="text-2xl font-bold">વાઉચર એન્ટ્રી</h1>{/* Increased font size */}
+    <div className="p-6">
+      <div className="mb-5 flex justify-between">
+        <h1 className="text-2xl font-bold">વાઉચર એન્ટ્રી</h1>
         <Button onClick={handleAddNew} disabled={isEditable}>નવું ઉમેરો</Button>
       </div>
 
       {/* Header Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-5"> {/* Increased gap and margin bottom */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-5">
         <div>
           <Label htmlFor="voucherType">પાવતીનો પ્રકાર</Label>
           <Select disabled={!isEditable} onValueChange={handleVoucherTypeChange}>
@@ -221,20 +221,20 @@ function VoucherPage() {
       </div>
 
       {/* Entry Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"> {/* Increased gap and margin bottom */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Credit Entries */}
         <div>
           <Label>જમા ખાતે</Label>
-          <ScrollArea className="h-[350px] w-full rounded-md border p-3"> {/* Increased height and padding */}
+          <ScrollArea className="h-[350px] w-full rounded-md border p-3">
             {creditEntries.map((entry) => (
-              <div key={entry.id} className="mb-3 flex flex-col gap-2"> {/* Increased margin bottom and gap */}
+              <div key={entry.id} className="mb-3 flex flex-col gap-2">
                 <Select disabled={!isEditable} onValueChange={(value) => handleAccountChange(entry.id, "credit", value)}>
-                  <SelectTrigger className="text-lg"> {/* Increased text size */}
+                  <SelectTrigger className="text-lg">
                     <SelectValue placeholder="એકાઉન્ટ પસંદ કરો" />
                   </SelectTrigger>
                   <SelectContent>
                     {accounts.map((account) => (
-                      <SelectItem key={account.id} value={account.name} className="text-lg"> {/* Increased text size */}
+                      <SelectItem key={account.id} value={account.name} className="text-lg">
                         {account.name}
                       </SelectItem>
                     ))}
@@ -246,37 +246,37 @@ function VoucherPage() {
                   value={entry.amount}
                   onChange={(e) => handleAmountChange(entry.id, "credit", e.target.value)}
                   disabled={!isEditable}
-                  className="text-lg" {/* Increased text size */}
+                  className="text-lg"
                 />
                 <Textarea
                   placeholder="વિગત"
                   value={entry.details}
                   onChange={(e) => handleDetailsChange(entry.id, "credit", e.target.value)}
                   disabled={!isEditable}
-                  className="mt-1 text-lg" {/* Increased text size */}
+                  className="mt-1 text-lg"
                 />
                 <Button variant="ghost" size="icon" onClick={() => handleRemoveCreditEntry(entry.id)} disabled={!isEditable} className="self-start">
-                  <Trash2 className="h-5 w-5" />{/* Increased icon size */}
+                  <Trash2 className="h-5 w-5" />
                 </Button>
               </div>
             ))}
           </ScrollArea>
-          <Button onClick={handleAddCreditEntry} disabled={!isEditable} className="mt-3">+ જમા લાઇન ઉમેરો</Button>{/* Added margin top */}
+          <Button onClick={handleAddCreditEntry} disabled={!isEditable} className="mt-3">+ જમા લાઇન ઉમેરો</Button>
         </div>
 
         {/* Debit Entries */}
         <div>
           <Label>ઉધાર ખાતે</Label>
-          <ScrollArea className="h-[350px] w-full rounded-md border p-3"> {/* Increased height and padding */}
+          <ScrollArea className="h-[350px] w-full rounded-md border p-3">
             {debitEntries.map((entry) => (
-              <div key={entry.id} className="mb-3 flex flex-col gap-2"> {/* Increased margin bottom and gap */}
+              <div key={entry.id} className="mb-3 flex flex-col gap-2">
                 <Select disabled={!isEditable} onValueChange={(value) => handleAccountChange(entry.id, "debit", value)}>
-                  <SelectTrigger className="text-lg"> {/* Increased text size */}
+                  <SelectTrigger className="text-lg">
                     <SelectValue placeholder="એકાઉન્ટ પસંદ કરો" />
                   </SelectTrigger>
                   <SelectContent>
                     {accounts.map((account) => (
-                      <SelectItem key={account.id} value={account.name} className="text-lg"> {/* Increased text size */}
+                      <SelectItem key={account.id} value={account.name} className="text-lg">
                         {account.name}
                       </SelectItem>
                     ))}
@@ -288,47 +288,47 @@ function VoucherPage() {
                   value={entry.amount}
                   onChange={(e) => handleAmountChange(entry.id, "debit", e.target.value)}
                   disabled={!isEditable}
-                  className="text-lg" {/* Increased text size */}
+                  className="text-lg"
                 />
                  <Textarea
                   placeholder="વિગત"
                   value={entry.details}
                   onChange={(e) => handleDetailsChange(entry.id, "debit", e.target.value)}
                   disabled={!isEditable}
-                  className="mt-1 text-lg" {/* Increased text size */}
+                  className="mt-1 text-lg"
                 />
                 <Button variant="ghost" size="icon" onClick={() => handleRemoveDebitEntry(entry.id)} disabled={!isEditable} className="self-start">
-                  <Trash2 className="h-5 w-5" />{/* Increased icon size */}
+                  <Trash2 className="h-5 w-5" />
                 </Button>
               </div>
             ))}
           </ScrollArea>
-          <Button onClick={handleAddDebitEntry} disabled={!isEditable} className="mt-3">+ ઉધાર લાઇન ઉમેરો</Button>{/* Added margin top */}
+          <Button onClick={handleAddDebitEntry} disabled={!isEditable} className="mt-3">+ ઉધાર લાઇન ઉમેરો</Button>
         </div>
       </div>
 
       {/* Balances and Totals */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-5"> {/* Increased gap and margin bottom */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-5">
         <div>
           <Label>ખુલતી સિલક</Label>
-          <Input type="text" value={openingBalance} disabled className="text-lg" />{/* Increased text size */}
+          <Input type="text" value={openingBalance} disabled className="text-lg" />
         </div>
         <div>
           <Label>કુલ જમા</Label>
-          <Input type="text" value={totalCredit} disabled className="text-lg" />{/* Increased text size */}
+          <Input type="text" value={totalCredit} disabled className="text-lg" />
         </div>
         <div>
           <Label>કુલ ઉધાર</Label>
-          <Input type="text" value={totalDebit} disabled className="text-lg" />{/* Increased text size */}
+          <Input type="text" value={totalDebit} disabled className="text-lg" />
         </div>
         <div>
           <Label>બંધ સિલક</Label>
-          <Input type="text" value={closingBalance} disabled className="text-lg" />{/* Increased text size */}
+          <Input type="text" value={closingBalance} disabled className="text-lg" />
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap justify-between gap-3"> {/* Increased gap */}
+      <div className="flex flex-wrap justify-between gap-3">
         <div>
           <Button onClick={handleEdit} disabled={isEditable}>એડિટ કરો</Button>
           <Button onClick={handleSave} disabled={!isEditable}>સેવ કરો</Button>
@@ -339,8 +339,8 @@ function VoucherPage() {
           <Button onClick={handleNavigatePrevious} disabled={isEditable}>&lt;</Button>
           <Button onClick={handleNavigateNext} disabled={isEditable}>&gt;</Button>
           <Button onClick={handleNavigateLast} disabled={isEditable}>&gt;&gt;</Button>
-          <Button onClick={handleCopy} disabled={isEditable}><Copy className="h-5 w-5" /></Button>{/* Increased icon size */}
-          <Button variant="destructive" onClick={handleDelete} disabled={isEditable}><Trash2 className="h-5 w-5" /></Button>{/* Increased icon size */}
+          <Button onClick={handleCopy} disabled={isEditable}><Copy className="h-5 w-5" /></Button>
+          <Button variant="destructive" onClick={handleDelete} disabled={isEditable}><Trash2 className="h-5 w-5" /></Button>
         </div>
       </div>
     </div>
