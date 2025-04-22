@@ -86,7 +86,7 @@ function ReportPage() {
           <Label htmlFor="generalAccountLedgerDetailPrinting">વિગત પ્રિન્ટિંગ</Label>
           <Switch id="generalAccountLedgerDetailPrinting" checked={generalAccountLedgerDetailPrinting} onCheckedChange={(checked) => setGeneralAccountLedgerDetailPrinting(checked)} />
         </div>
-        <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
           <div>
             <Label htmlFor="generalAccountLedgerFromDate">From Date</Label>
             <Popover>
@@ -94,7 +94,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !generalAccountLedgerFromDate && "text-muted-foreground"
                   )}
                 >
@@ -119,7 +119,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !generalAccountLedgerToDate && "text-muted-foreground"
                   )}
                 >
@@ -144,7 +144,7 @@ function ReportPage() {
       {/* Day Book */}
       <div className="border rounded-md p-4 mb-4">
         <h2 className="text-md font-semibold mb-2">રોજમેળ</h2>
-        <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
           <div>
             <Label htmlFor="dayBookFromDate">From Date</Label>
             <Popover>
@@ -152,7 +152,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !dayBookFromDate && "text-muted-foreground"
                   )}
                 >
@@ -177,7 +177,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !dayBookToDate && "text-muted-foreground"
                   )}
                 >
@@ -202,7 +202,7 @@ function ReportPage() {
       {/* Monthly Tarij */}
       <div className="border rounded-md p-4 mb-4">
         <h2 className="text-md font-semibold mb-2">માસિક સરવાળા</h2>
-        <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
           <div>
             <Label htmlFor="monthlyTarijFromDate">From Date</Label>
             <Popover>
@@ -210,7 +210,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !monthlyTarijFromDate && "text-muted-foreground"
                   )}
                 >
@@ -235,7 +235,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !monthlyTarijToDate && "text-muted-foreground"
                   )}
                 >
@@ -246,7 +246,7 @@ function ReportPage() {
               <PopoverContent className="w-auto p-0" align="start" side="bottom">
                 <Calendar
                   mode="single"
-                  selected={monthlyTarijToDate}
+                  selected={monthlyTarijFromDate}
                   onSelect={setMonthlyTarijToDate}
                   // initialFocus
                 />
@@ -260,7 +260,7 @@ function ReportPage() {
       {/* Profit and loss Account */}
       <div className="border rounded-md p-4 mb-4">
         <h2 className="text-md font-semibold mb-2">નફા નુકશાન ખાતુ</h2>
-        <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
           <div>
             <Label htmlFor="profitLossAccountFromDate">From Date</Label>
             <Popover>
@@ -268,7 +268,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !profitLossAccountFromDate && "text-muted-foreground"
                   )}
                 >
@@ -293,7 +293,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !profitLossAccountToDate && "text-muted-foreground"
                   )}
                 >
@@ -318,7 +318,7 @@ function ReportPage() {
       {/* Balance Sheet */}
       <div className="border rounded-md p-4 mb-4">
         <h2 className="text-md font-semibold mb-2">સરવૈયું</h2>
-        <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
           <div>
             <Label htmlFor="balanceSheetFromDate">From Date</Label>
             <Popover>
@@ -326,7 +326,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !balanceSheetFromDate && "text-muted-foreground"
                   )}
                 >
@@ -351,7 +351,7 @@ function ReportPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[140px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !balanceSheetToDate && "text-muted-foreground"
                   )}
                 >
@@ -362,7 +362,7 @@ function ReportPage() {
               <PopoverContent className="w-auto p-0" align="start" side="bottom">
                 <Calendar
                   mode="single"
-                  selected={balanceSheetToDate}
+                  selected={balanceSheetFromDate}
                   onSelect={setBalanceSheetToDate}
                   // initialFocus
                 />

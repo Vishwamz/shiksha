@@ -58,10 +58,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           </DropdownMenu>
         </SidebarFooter>
       </Sidebar>
-      <div className="pl-64">
+      <div className="lg:pl-64 p-4">
         {children}
       </div>
     </SidebarProvider>
   );
 }
-

@@ -160,7 +160,7 @@ function VoucherPage() {
       </div>
 
       {/* Header Section */}
-      <div className="grid grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div>
           <Label htmlFor="voucherType">પાવતીનો પ્રકાર</Label>
           <Select disabled={!isEditable} onValueChange={handleVoucherTypeChange}>
@@ -194,7 +194,7 @@ function VoucherPage() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[240px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !date && "text-muted-foreground"
                   )}
                   disabled={!isEditable}
@@ -221,13 +221,13 @@ function VoucherPage() {
       </div>
 
       {/* Entry Sections */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {/* Credit Entries */}
         <div>
           <Label>જમા ખાતે</Label>
           <ScrollArea className="h-[300px] w-full rounded-md border p-2">
             {creditEntries.map((entry) => (
-              <div key={entry.id} className="mb-2">
+              <div key={entry.id} className="mb-2 flex flex-col gap-1">
                 <Select disabled={!isEditable} onValueChange={(value) => handleAccountChange(entry.id, "credit", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="એકાઉન્ટ પસંદ કરો" />
@@ -254,7 +254,7 @@ function VoucherPage() {
                   disabled={!isEditable}
                   className="mt-1"
                 />
-                <Button variant="ghost" size="icon" onClick={() => handleRemoveCreditEntry(entry.id)} disabled={!isEditable}>
+                <Button variant="ghost" size="icon" onClick={() => handleRemoveCreditEntry(entry.id)} disabled={!isEditable} className="self-start">
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
@@ -268,7 +268,7 @@ function VoucherPage() {
           <Label>ઉધાર ખાતે</Label>
           <ScrollArea className="h-[300px] w-full rounded-md border p-2">
             {debitEntries.map((entry) => (
-              <div key={entry.id} className="mb-2">
+              <div key={entry.id} className="mb-2 flex flex-col gap-1">
                 <Select disabled={!isEditable} onValueChange={(value) => handleAccountChange(entry.id, "debit", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="એકાઉન્ટ પસંદ કરો" />
@@ -295,7 +295,7 @@ function VoucherPage() {
                   disabled={!isEditable}
                   className="mt-1"
                 />
-                <Button variant="ghost" size="icon" onClick={() => handleRemoveDebitEntry(entry.id)} disabled={!isEditable}>
+                <Button variant="ghost" size="icon" onClick={() => handleRemoveDebitEntry(entry.id)} disabled={!isEditable} className="self-start">
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
@@ -306,7 +306,7 @@ function VoucherPage() {
       </div>
 
       {/* Balances and Totals */}
-      <div className="grid grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div>
           <Label>ખુલતી સિલક</Label>
           <Input type="text" value={openingBalance} disabled />
@@ -326,7 +326,7 @@ function VoucherPage() {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-between">
+      <div className="flex flex-wrap justify-between gap-2">
         <div>
           <Button onClick={handleEdit} disabled={isEditable}>એડિટ કરો</Button>
           <Button onClick={handleSave} disabled={!isEditable}>સેવ કરો</Button>

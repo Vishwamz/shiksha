@@ -306,14 +306,14 @@ function AccountPage() {
     }, [accounts]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       {/* Account Group Section */}
       <div className="p-4 border rounded-md w-full mb-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-bold">એકાઉન્ટ જૂથ</h2>
           <Button onClick={handleAddGroup} disabled={isGroupFormEditable}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="groupCode">જુથનો કોડ</Label>
             <Input id="groupCode" type="text" value={newGroupCode} disabled />
@@ -412,7 +412,7 @@ function AccountPage() {
           <h2 className="text-lg font-bold">એકાઉન્ટ માસ્ટર</h2>
           <Button onClick={handleAddAccount} disabled={isAccountFormEditable}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="accountCode">ખાતાનો કોડ</Label>
             <Input id="accountCode" type="text" value={newAccountCode} disabled />

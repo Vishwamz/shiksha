@@ -133,10 +133,10 @@ function SetupPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 px-4">
       <h1 className="text-2xl font-bold mb-4">પ્રારંભિક સેટઅપ</h1>
       {step === 1 && (
-        <div className="p-4 border rounded-md w-96">
+        <div className="p-4 border rounded-md w-full max-w-md">
           <h2 className="text-lg mb-2">એડમિન એકાઉન્ટ બનાવો</h2>
           <div className="mb-4">
             <Label htmlFor="username">યુઝરનેમ</Label>
@@ -179,7 +179,7 @@ function SetupPage() {
       )}
 
       {step === 2 && (
-        <div className="p-4 border rounded-md w-96">
+        <div className="p-4 border rounded-md w-full max-w-md">
           <h2 className="text-lg mb-2">શાળાની વિગતો દાખલ કરો</h2>
           <div className="mb-4">
             <Label htmlFor="schoolName">શાળાનું નામ</Label>
@@ -253,7 +253,7 @@ function SetupPage() {
       )}
 
       {step === 3 && (
-        <div className="p-4 border rounded-md w-96">
+        <div className="p-4 border rounded-md w-full max-w-md">
           <h2 className="text-lg mb-2">નાણાકીય વર્ષની પુષ્ટિ કરો</h2>
           <p className="mb-4">નાણાકીય વર્ષ {financialYear} રહેશે</p>
           <div className="flex justify-between">
