@@ -12,6 +12,17 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, Copy, Trash2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 function VoucherPage() {
   const { toast } = useToast();
@@ -160,70 +171,72 @@ function VoucherPage() {
       </div>
 
       {/* Header Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4 md:mb-5">
-        <div>
-          <Label htmlFor="voucherType" className="text-base">પાવતીનો પ્રકાર</Label>
-          <Select disabled={!isEditable} onValueChange={handleVoucherTypeChange}>
-            <SelectTrigger className="text-sm">
-              <SelectValue placeholder="પાવતીનો પ્રકાર પસંદ કરો" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Contra">Contra</SelectItem>
-              <SelectItem value="Journal">Journal</SelectItem>
-              <SelectItem value="Payment">Payment</SelectItem>
-              <SelectItem value="Receipt">Receipt</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="transactionType" className="text-base">લેવડદેવડનો પ્રકાર</Label>
-          <Select disabled={!isEditable} onValueChange={handleTransactionTypeChange}>
-            <SelectTrigger className="text-sm">
-              <SelectValue placeholder="લેવડદેવડનો પ્રકાર પસંદ કરો" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Cash">Cash</SelectItem>
-              <SelectItem value="Bank/Draft">Bank/Draft</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="date" className="text-base">તારીખ</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal text-sm",
-                    !date && "text-muted-foreground"
-                  )}
-                  disabled={!isEditable}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? date?.toLocaleDateString() : <span>તારીખ પસંદ કરો</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start" side="bottom">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={handleDateChange}
-                  disabled={!isEditable}
-                  // initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-        </div>
-        <div>
-          <Label htmlFor="voucherNumber" className="text-base">વાઉચર નં</Label>
-          <Input id="voucherNumber" type="text" value={voucherNumber} disabled className="text-sm"/>
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4 md:mb-5">
+          <div>
+            <Label htmlFor="voucherType" className="text-base">પાવતીનો પ્રકાર</Label>
+            <Select disabled={!isEditable} onValueChange={handleVoucherTypeChange}>
+              <SelectTrigger className="text-sm">
+                <SelectValue placeholder="પાવતીનો પ્રકાર પસંદ કરો" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Contra">Contra</SelectItem>
+                <SelectItem value="Journal">Journal</SelectItem>
+                <SelectItem value="Payment">Payment</SelectItem>
+                <SelectItem value="Receipt">Receipt</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label htmlFor="transactionType" className="text-base">લેવડદેવડનો પ્રકાર</Label>
+            <Select disabled={!isEditable} onValueChange={handleTransactionTypeChange}>
+              <SelectTrigger className="text-sm">
+                <SelectValue placeholder="લેવડદેવડનો પ્રકાર પસંદ કરો" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Cash">Cash</SelectItem>
+                <SelectItem value="Bank/Draft">Bank/Draft</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label htmlFor="date" className="text-base">તારીખ</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal text-sm",
+                      !date && "text-muted-foreground"
+                    )}
+                    disabled={!isEditable}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? date?.toLocaleDateString() : <span>તારીખ પસંદ કરો</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start" side="bottom">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={handleDateChange}
+                    disabled={!isEditable}
+                    // initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+          </div>
+          <div>
+            <Label htmlFor="voucherNumber" className="text-base">વાઉચર નં</Label>
+            <Input id="voucherNumber" type="text" value={voucherNumber} disabled className="text-sm"/>
+          </div>
         </div>
       </div>
 
       {/* Entry Sections */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-5">
         {/* Credit Entries */}
-        <div>
+        <div className="border rounded-md p-4 bg-card">
           <Label className="text-lg">જમા ખાતે</Label>
           <ScrollArea className="h-[300px] w-full rounded-md border p-3">
             {creditEntries.map((entry) => (
@@ -261,11 +274,11 @@ function VoucherPage() {
               </div>
             ))}
           </ScrollArea>
-          <Button onClick={handleAddCreditEntry} disabled={!isEditable} variant="standard" className="mt-3"> + જમા લાઇન ઉમેરો</Button>
+          <Button onClick={handleAddCreditEntry} disabled={!isEditable} variant="standard" className="mt-3 w-full"> + જમા લાઇન ઉમેરો</Button>
         </div>
 
         {/* Debit Entries */}
-        <div>
+        <div className="border rounded-md p-4 bg-card">
           <Label className="text-lg">ઉધાર ખાતે</Label>
           <ScrollArea className="h-[300px] w-full rounded-md border p-3">
             {debitEntries.map((entry) => (
@@ -303,49 +316,71 @@ function VoucherPage() {
               </div>
             ))}
           </ScrollArea>
-          <Button onClick={handleAddDebitEntry} disabled={!isEditable} variant="standard" className="mt-3">+ ઉધાર લાઇન ઉમેરો</Button>
+          <Button onClick={handleAddDebitEntry} disabled={!isEditable} variant="standard" className="mt-3 w-full">+ ઉધાર લાઇન ઉમેરો</Button>
         </div>
       </div>
 
       {/* Balances and Totals */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4 md:mb-5">
-        <div>
-          <Label className="text-base">ખુલતી સિલક</Label>
-          <Input type="text" value={openingBalance} disabled className="text-sm"/>
-        </div>
-        <div>
-          <Label className="text-base">કુલ જમા</Label>
-          <Input type="text" value={totalCredit} disabled className="text-sm"/>
-        </div>
-        <div>
-          <Label className="text-base">કુલ ઉધાર</Label>
-          <Input type="text" value={totalDebit} disabled className="text-sm"/>
-        </div>
-        <div>
-          <Label className="text-base">બંધ સિલક</Label>
-          <Input type="text" value={closingBalance} disabled className="text-sm"/>
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4 md:mb-5">
+          <div>
+            <Label className="text-base">ખુલતી સિલક</Label>
+            <Input type="text" value={openingBalance} disabled className="text-sm"/>
+          </div>
+          <div>
+            <Label className="text-base">કુલ જમા</Label>
+            <Input type="text" value={totalCredit} disabled className="text-sm"/>
+          </div>
+          <div>
+            <Label className="text-base">કુલ ઉધાર</Label>
+            <Input type="text" value={totalDebit} disabled className="text-sm"/>
+          </div>
+          <div>
+            <Label className="text-base">બંધ સિલક</Label>
+            <Input type="text" value={closingBalance} disabled className="text-sm"/>
+          </div>
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap justify-between items-center mb-4">
-        <div className="flex gap-2">
-          <Button onClick={handleEdit} disabled={isEditable} variant="standard" className="text-base">એડિટ કરો</Button>
-          <Button onClick={handleSave} disabled={!isEditable} variant="standard" className="text-base">સેવ કરો</Button>
-          <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
+      <div className="border rounded-md p-4 mb-4 md:mb-5 bg-card">
+        <div className="flex flex-wrap justify-between items-center mb-4">
+          <div className="flex gap-2">
+            <Button onClick={handleEdit} disabled={isEditable} variant="standard" className="text-base">એડિટ કરો</Button>
+            <Button onClick={handleSave} disabled={!isEditable} variant="accent" className="text-base">સેવ કરો</Button>
+            <Button variant="secondary" onClick={handleCancel} disabled={!isEditable} className="text-base">રદ કરો</Button>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>શું તમે ખરેખર કાઢી નાખવા માંગો છો?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી. શું તમે ખાતરી કરો છો કે તમે આ વાઉચર કાઢી નાખવા માંગો છો?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>રદ કરો</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => {
+                      handleDelete()
+                    }}>કાઢી નાખો</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={handleCopy} disabled={isEditable} variant="standard" className="text-base"><Copy className="h-4 w-4" /></Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={isEditable} className="text-base"><Trash2 className="h-4 w-4" /></Button>
-        </div>
-      </div>
 
-        {/*Navigation Buttons*/}
-        <div className="flex justify-center gap-2 mt-4">
-          <Button onClick={handleNavigateFirst} disabled={isEditable} variant="standard" className="text-base">&lt;&lt;</Button>
-          <Button onClick={handleNavigatePrevious} disabled={isEditable} variant="standard" className="text-base">&lt;</Button>
-          <Button onClick={handleNavigateNext} disabled={isEditable} variant="standard" className="text-base">&gt;</Button>
-          <Button onClick={handleNavigateLast} disabled={isEditable} variant="standard" className="text-base">&gt;&gt;</Button>
+          {/*Navigation Buttons*/}
+          <div className="flex justify-center gap-2 mt-4">
+            <Button onClick={handleNavigateFirst} disabled={isEditable} variant="standard" className="text-base">&lt;&lt;</Button>
+            <Button onClick={handleNavigatePrevious} disabled={isEditable} variant="standard" className="text-base">&lt;</Button>
+            <Button onClick={handleNavigateNext} disabled={isEditable} variant="standard" className="text-base">&gt;</Button>
+            <Button onClick={handleNavigateLast} disabled={isEditable} variant="standard" className="text-base">&gt;&gt;</Button>
+          </div>
         </div>
     </div>
   );
