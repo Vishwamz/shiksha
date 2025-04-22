@@ -308,13 +308,13 @@ function AccountPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Account Group Section */}
-      <div className="p-4 border rounded-md w-full mb-4">
-        <div className="flex justify-between items-center mb-2">
+      <div className="p-5 border rounded-md w-full mb-5"> {/* Increased Padding */}
+        <div className="flex justify-between items-center mb-3"> {/* Increased Margin */}
           <h2 className="text-lg font-bold">એકાઉન્ટ જૂથ</h2>
           <Button onClick={handleAddGroup} disabled={isGroupFormEditable}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5"> {/* Increased Gap */}
+          <div className="flex flex-col gap-3"> {/* Increased Gap */}
             <Label htmlFor="groupCode">જુથનો કોડ</Label>
             <Input id="groupCode" type="text" value={newGroupCode} disabled />
 
@@ -340,7 +340,7 @@ function AccountPage() {
               </SelectContent>
             </Select>
 
-            <div className="flex justify-start gap-2 mt-4">
+            <div className="flex justify-start gap-3 mt-5"> {/* Increased Gap and Margin */}
               <Button
                 onClick={handleSaveGroup}
                 disabled={!isGroupFormEditable}
@@ -386,13 +386,13 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[200px] w-full rounded-md border">
+            <ScrollArea className="h-[250px] w-full rounded-md border mt-2"> {/* Increased Height, added Margin */}
               <div className="p-4">
                 {accountGroups.map((group) => (
                   <div
                     key={group.id}
                     className={cn(
-                      "cursor-pointer rounded-md p-2 hover:bg-secondary",
+                      "cursor-pointer rounded-md p-3 hover:bg-secondary text-lg", /* Increased Padding and text size */
                       selectedAccountGroup?.id === group.id ? "bg-secondary" : ""
                     )}
                     onClick={() => setSelectedAccountGroup(group)}
@@ -407,13 +407,13 @@ function AccountPage() {
       </div>
 
       {/* Account Master Section */}
-      <div className="p-4 border rounded-md w-full">
-        <div className="flex justify-between items-center mb-2">
+      <div className="p-5 border rounded-md w-full"> {/* Increased Padding */}
+        <div className="flex justify-between items-center mb-3"> {/* Increased Margin */}
           <h2 className="text-lg font-bold">એકાઉન્ટ માસ્ટર</h2>
           <Button onClick={handleAddAccount} disabled={isAccountFormEditable}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5"> {/* Increased Gap */}
+          <div className="flex flex-col gap-3"> {/* Increased Gap */}
             <Label htmlFor="accountCode">ખાતાનો કોડ</Label>
             <Input id="accountCode" type="text" value={newAccountCode} disabled />
 
@@ -498,7 +498,7 @@ function AccountPage() {
               disabled={!isAccountFormEditable}
             />
 
-            <div className="flex justify-start gap-2 mt-4">
+            <div className="flex justify-start gap-3 mt-5"> {/* Increased Gap and Margin */}
               <Button onClick={handleSaveAccount} disabled={!isAccountFormEditable}>
                 સેવ કરો
               </Button>
@@ -541,13 +541,13 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[300px] w-full rounded-md border">
+            <ScrollArea className="h-[350px] w-full rounded-md border mt-2"> {/* Increased Height, added Margin */}
               <div className="p-4">
                 {accounts.map((account) => (
                   <div
                     key={account.id}
                     className={cn(
-                      "cursor-pointer rounded-md p-2 hover:bg-secondary",
+                      "cursor-pointer rounded-md p-3 hover:bg-secondary text-lg", /* Increased Padding and text size */
                       selectedAccount?.id === account.id ? "bg-secondary" : ""
                     )}
                     onClick={() => setSelectedAccount(account)}

@@ -1,4 +1,4 @@
-"use client";
+{"use client";
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -68,120 +68,120 @@ function SettingsPage() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-lg font-bold mb-4">સેટિંગ્સ</h1>
+    <div className="p-6"> {/* Increased padding */}
+      <h1 className="text-3xl font-bold mb-6">સેટિંગ્સ</h1>{/* Increased font size and margin */}
 
       {/* School Details Section */}
-      <div className="border rounded-md p-4 mb-4">
-        <h2 className="text-md font-semibold mb-2">શાળાની વિગતો</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
+        <h2 className="text-xl font-semibold mb-4">શાળાની વિગતો</h2>{/* Increased font size and margin */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5"> {/* Increased gap */}
           <div>
-            <Label>શાળાનું નામ</Label>
-            <Input type="text" value={schoolName} disabled />
+            <Label className="text-lg">શાળાનું નામ</Label>{/* Increased font size */}
+            <Input type="text" value={schoolName} disabled className="text-lg" />{/* Increased font size */}
           </div>
           <div>
-            <Label>સરનામુ</Label>
-            <Input type="text" value={address} disabled />
+            <Label className="text-lg">સરનામુ</Label>{/* Increased font size */}
+            <Input type="text" value={address} disabled className="text-lg" />{/* Increased font size */}
           </div>
           <div>
-            <Label>ફોન</Label>
-            <Input type="text" value={phone} disabled />
+            <Label className="text-lg">ફોન</Label>{/* Increased font size */}
+            <Input type="text" value={phone} disabled className="text-lg" />{/* Increased font size */}
           </div>
           <div>
-            <Label>રજી. નંબર</Label>
-            <Input type="text" value={registrationNumber} disabled />
+            <Label className="text-lg">રજી. નંબર</Label>{/* Increased font size */}
+            <Input type="text" value={registrationNumber} disabled className="text-lg" />{/* Increased font size */}
           </div>
           <div>
-            <Label>ટ્રસ્ટનું નામ</Label>
-            <Input type="text" value={trustName} disabled />
+            <Label className="text-lg">ટ્રસ્ટનું નામ</Label>{/* Increased font size */}
+            <Input type="text" value={trustName} disabled className="text-lg" />{/* Increased font size */}
           </div>
           <div>
-            <Label>ટ્રસ્ટનું સરનામુ</Label>
-            <Input type="text" value={trustAddress} disabled />
+            <Label className="text-lg">ટ્રસ્ટનું સરનામુ</Label>{/* Increased font size */}
+            <Input type="text" value={trustAddress} disabled className="text-lg" />{/* Increased font size */}
           </div>
         </div>
       </div>
 
       {/* Financial Year Section */}
-      <div className="border rounded-md p-4 mb-4">
-        <h2 className="text-md font-semibold mb-2">નાણાકીય વર્ષ</h2>
+      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
+        <h2 className="text-xl font-semibold mb-4">નાણાકીય વર્ષ</h2>{/* Increased font size and margin */}
         <Dialog>
           <DialogTrigger asChild>
-            <Button>નવું નાણાકીય વર્ષ બનાવો</Button>
+            <Button className="h-12 text-lg">નવું નાણાકીય વર્ષ બનાવો</Button>{/* Increased height and font size */}
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]"> {/* Increased width */}
             <DialogHeader>
-              <DialogTitle>નવું નાણાકીય વર્ષ બનાવો</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-2xl">નવું નાણાકીય વર્ષ બનાવો</DialogTitle>{/* Increased font size */}
+              <DialogDescription className="text-lg">
                 શું તમે આગલું નાણાકીય વર્ષ બનાવવા માંગો છો?
-              </DialogDescription>
+              </DialogDescription>{/* Increased font size */}
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-5 py-5"> {/* Increased gap and padding */}
             </div>
-            <Button onClick={handleCreateNewFinancialYear}>બનાવો</Button>
+            <Button onClick={handleCreateNewFinancialYear} className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
           </DialogContent>
         </Dialog>
       </div>
 
       {/* User Details Section */}
-      <div className="border rounded-md p-4 mb-4">
-        <h2 className="text-md font-semibold mb-2">વપરાશકર્તાની વિગતો</h2>
+      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
+        <h2 className="text-xl font-semibold mb-4">વપરાશકર્તાની વિગતો</h2>{/* Increased font size and margin */}
         <div>
-          <Label>યુઝરનેમ</Label>
-          <Input type="text" value="admin" disabled />
+          <Label className="text-lg">યુઝરનેમ</Label>{/* Increased font size */}
+          <Input type="text" value="admin" disabled className="text-lg" />{/* Increased font size */}
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <Button>પાસવર્ડ બદલો</Button>
+            <Button className="h-12 text-lg mt-4">પાસવર્ડ બદલો</Button>{/* Increased height, font size, and margin */}
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]"> {/* Increased width */}
             <DialogHeader>
-              <DialogTitle>પાસવર્ડ બદલો</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-2xl">પાસવર્ડ બદલો</DialogTitle>{/* Increased font size */}
+              <DialogDescription className="text-lg">
                 તમારો પાસવર્ડ બદલવા માટે, કૃપા કરીને નીચેના ફીલ્ડ્સ ભરો.
-              </DialogDescription>
+              </DialogDescription>{/* Increased font size */}
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-5 py-5"> {/* Increased gap and padding */}
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="currentPassword" className="text-right">
+                <Label htmlFor="currentPassword" className="text-right text-lg">
                   હાલનો પાસવર્ડ
-                </Label>
+                </Label>{/* Increased font size */}
                 <Input
                   type="password"
                   id="currentPassword"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="col-span-3"
+                  className="col-span-3 text-lg"/* Increased font size */
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="newPassword" className="text-right">
+                <Label htmlFor="newPassword" className="text-right text-lg">
                   નવો પાસવર્ડ
-                </Label>
+                </Label>{/* Increased font size */}
                 <Input
                   type="password"
                   id="newPassword"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="col-span-3"
+                  className="col-span-3 text-lg"/* Increased font size */
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="confirmPassword" className="text-right">
+                <Label htmlFor="confirmPassword" className="text-right text-lg">
                   પાસવર્ડની પુષ્ટિ કરો
-                </Label>
+                </Label>{/* Increased font size */}
                 <Input
                   type="password"
                   id="confirmPassword"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="col-span-3"
+                  className="col-span-3 text-lg"/* Increased font size */
                 />
               </div>
             </div>
             {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
             {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
-            <Button onClick={handleChangePassword}>પાસવર્ડ બદલો</Button>
+            <Button onClick={handleChangePassword} className="h-12 text-lg">પાસવર્ડ બદલો</Button>{/* Increased height and font size */}
           </DialogContent>
         </Dialog>
       </div>

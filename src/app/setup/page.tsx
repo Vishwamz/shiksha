@@ -133,134 +133,143 @@ function SetupPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 px-4">
-      <h1 className="text-2xl font-bold mb-4">પ્રારંભિક સેટઅપ</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen py-8 px-5">{/* Increased padding */}
+      <h1 className="text-4xl font-bold mb-7">પ્રારંભિક સેટઅપ</h1>{/* Increased font size and margin */}
       {step === 1 && (
-        <div className="p-4 border rounded-md w-full max-w-md">
-          <h2 className="text-lg mb-2">એડમિન એકાઉન્ટ બનાવો</h2>
-          <div className="mb-4">
-            <Label htmlFor="username">યુઝરનેમ</Label>
+        <div className="p-6 border rounded-md w-full max-w-md"> {/* Increased padding */}
+          <h2 className="text-2xl mb-3">એડમિન એકાઉન્ટ બનાવો</h2>{/* Increased font size and margin */}
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="username" className="text-lg">યુઝરનેમ</Label>{/* Increased font size */}
             <Input
               id="username"
               type="text"
               placeholder="યુઝરનેમ"
               value={adminUsername}
               onChange={(e) => setAdminUsername(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
             {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
           </div>
-          <div className="mb-4">
-            <Label htmlFor="password">પાસવર્ડ</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="password" className="text-lg">પાસવર્ડ</Label>{/* Increased font size */}
             <Input
               id="password"
               type="password"
               placeholder="પાસવર્ડ"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
             {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
           </div>
-          <div className="mb-4">
-            <Label htmlFor="confirmPassword">પાસવર્ડ ફરી દાખલ કરો</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="confirmPassword" className="text-lg">પાસવર્ડ ફરી દાખલ કરો</Label>{/* Increased font size */}
             <Input
               id="confirmPassword"
               type="password"
               placeholder="પાસવર્ડ ફરી દાખલ કરો"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
             {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
           </div>
           <div className="flex justify-between">
-            <Button variant="secondary" onClick={handleCancel}>રદ કરો</Button>
-            <Button onClick={handleNext}>આગળ</Button>
+            <Button variant="secondary" onClick={handleCancel} className="h-12 w-32 text-lg">રદ કરો</Button>{/* Increased height, width and font size */}
+            <Button onClick={handleNext} className="h-12 w-32 text-lg">આગળ</Button>{/* Increased height, width and font size */}
           </div>
         </div>
       )}
 
       {step === 2 && (
-        <div className="p-4 border rounded-md w-full max-w-md">
-          <h2 className="text-lg mb-2">શાળાની વિગતો દાખલ કરો</h2>
-          <div className="mb-4">
-            <Label htmlFor="schoolName">શાળાનું નામ</Label>
+        <div className="p-6 border rounded-md w-full max-w-md"> {/* Increased padding */}
+          <h2 className="text-2xl mb-3">શાળાની વિગતો દાખલ કરો</h2>{/* Increased font size and margin */}
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="schoolName" className="text-lg">શાળાનું નામ</Label>{/* Increased font size */}
             <Input
               id="schoolName"
               type="text"
               placeholder="શાળાનું નામ"
               value={schoolName}
               onChange={(e) => setSchoolName(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
             {schoolNameError && <p className="text-red-500 text-sm">{schoolNameError}</p>}
           </div>
-          <div className="mb-4">
-            <Label htmlFor="address">સરનામુ</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="address" className="text-lg">સરનામુ</Label>{/* Increased font size */}
             <Input
               id="address"
               type="text"
               placeholder="સરનામુ"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
             {addressError && <p className="text-red-500 text-sm">{addressError}</p>}
           </div>
-          <div className="mb-4">
-            <Label htmlFor="phone">ફોન</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="phone" className="text-lg">ફોન</Label>{/* Increased font size */}
             <Input
               id="phone"
               type="text"
               placeholder="ફોન"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
           </div>
-          <div className="mb-4">
-            <Label htmlFor="registrationNumber">રજી. નંબર</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="registrationNumber" className="text-lg">રજી. નંબર</Label>{/* Increased font size */}
             <Input
               id="registrationNumber"
               type="text"
               placeholder="રજી. નંબર"
               value={registrationNumber}
               onChange={(e) => setRegistrationNumber(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
           </div>
-          <div className="mb-4">
-            <Label htmlFor="trustName">ટ્રસ્ટનું નામ</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="trustName" className="text-lg">ટ્રસ્ટનું નામ</Label>{/* Increased font size */}
             <Input
               id="trustName"
               type="text"
               placeholder="ટ્રસ્ટનું નામ"
               value={trustName}
               onChange={(e) => setTrustName(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
              {trustNameError && <p className="text-red-500 text-sm">{trustNameError}</p>}
           </div>
-          <div className="mb-4">
-            <Label htmlFor="trustAddress">ટ્રસ્ટનું સરનામુ</Label>
+          <div className="mb-5"> {/* Increased margin */}
+            <Label htmlFor="trustAddress" className="text-lg">ટ્રસ્ટનું સરનામુ</Label>{/* Increased font size */}
             <Input
               id="trustAddress"
               type="text"
               placeholder="ટ્રસ્ટનું સરનામુ"
               value={trustAddress}
               onChange={(e) => setTrustAddress(e.target.value)}
+              className="text-lg"/* Increased font size */
             />
              {trustAddressError && <p className="text-red-500 text-sm">{trustAddressError}</p>}
           </div>
           <div className="flex justify-between">
-            <Button onClick={handleBack}>પાછળ</Button>
-            <Button onClick={handleNext}>આગળ</Button>
+            <Button onClick={handleBack} className="h-12 w-32 text-lg">પાછળ</Button>{/* Increased height, width and font size */}
+            <Button onClick={handleNext} className="h-12 w-32 text-lg">આગળ</Button>{/* Increased height, width and font size */}
           </div>
         </div>
       )}
 
       {step === 3 && (
-        <div className="p-4 border rounded-md w-full max-w-md">
-          <h2 className="text-lg mb-2">નાણાકીય વર્ષની પુષ્ટિ કરો</h2>
-          <p className="mb-4">નાણાકીય વર્ષ {financialYear} રહેશે</p>
+        <div className="p-6 border rounded-md w-full max-w-md"> {/* Increased padding */}
+          <h2 className="text-2xl mb-3">નાણાકીય વર્ષની પુષ્ટિ કરો</h2>{/* Increased font size and margin */}
+          <p className="mb-5 text-lg">નાણાકીય વર્ષ {financialYear} રહેશે</p>{/* Increased margin and font size */}
           <div className="flex justify-between">
-            <Button onClick={handleBack}>પાછળ</Button>
-            <Button onClick={handleSetupComplete}>પૂર્ણ કરો</Button>
+            <Button onClick={handleBack} className="h-12 w-32 text-lg">પાછળ</Button>{/* Increased height, width and font size */}
+            <Button onClick={handleSetupComplete} className="h-12 w-32 text-lg">પૂર્ણ કરો</Button>{/* Increased height, width and font size */}
           </div>
-          <Button variant="secondary" onClick={handleCancel}>રદ કરો</Button>
+          <Button variant="secondary" onClick={handleCancel} className="h-12 w-32 text-lg mt-4">રદ કરો</Button>{/* Increased height, width and font size */}
         </div>
       )}
     </div>
