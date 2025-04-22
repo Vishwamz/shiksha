@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -306,15 +307,15 @@ function AccountPage() {
     }, [accounts]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen p-4"> {/* Added padding to the main container */}
       {/* Account Group Section */}
-      <div className="p-5 border rounded-md w-full mb-5"> {/* Increased Padding */}
-        <div className="flex justify-between items-center mb-3"> {/* Increased Margin */}
+      <div className="border rounded-md mb-4 p-4"> {/* Increased padding and margin */}
+        <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">એકાઉન્ટ જૂથ</h2>
           <Button onClick={handleAddGroup} disabled={isGroupFormEditable}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5"> {/* Increased Gap */}
-          <div className="flex flex-col gap-3"> {/* Increased Gap */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Responsive grid layout with gap */}
+          <div className="flex flex-col gap-3">
             <Label htmlFor="groupCode">જુથનો કોડ</Label>
             <Input id="groupCode" type="text" value={newGroupCode} disabled />
 
@@ -340,7 +341,7 @@ function AccountPage() {
               </SelectContent>
             </Select>
 
-            <div className="flex justify-start gap-3 mt-5"> {/* Increased Gap and Margin */}
+            <div className="flex justify-start gap-2 mt-4">
               <Button
                 onClick={handleSaveGroup}
                 disabled={!isGroupFormEditable}
@@ -386,13 +387,13 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[250px] w-full rounded-md border mt-2"> {/* Increased Height, added Margin */}
-              <div className="p-4">
+            <ScrollArea className="h-[300px] w-full rounded-md border mt-2">
+              <div className="p-3">
                 {accountGroups.map((group) => (
                   <div
                     key={group.id}
                     className={cn(
-                      "cursor-pointer rounded-md p-3 hover:bg-secondary text-lg", /* Increased Padding and text size */
+                      "cursor-pointer rounded-md p-2 hover:bg-secondary",
                       selectedAccountGroup?.id === group.id ? "bg-secondary" : ""
                     )}
                     onClick={() => setSelectedAccountGroup(group)}
@@ -407,13 +408,13 @@ function AccountPage() {
       </div>
 
       {/* Account Master Section */}
-      <div className="p-5 border rounded-md w-full"> {/* Increased Padding */}
-        <div className="flex justify-between items-center mb-3"> {/* Increased Margin */}
+      <div className="border rounded-md mb-4 p-4"> {/* Increased padding and margin */}
+        <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">એકાઉન્ટ માસ્ટર</h2>
           <Button onClick={handleAddAccount} disabled={isAccountFormEditable}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5"> {/* Increased Gap */}
-          <div className="flex flex-col gap-3"> {/* Increased Gap */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Responsive grid layout with gap */}
+          <div className="flex flex-col gap-3">
             <Label htmlFor="accountCode">ખાતાનો કોડ</Label>
             <Input id="accountCode" type="text" value={newAccountCode} disabled />
 
@@ -498,7 +499,7 @@ function AccountPage() {
               disabled={!isAccountFormEditable}
             />
 
-            <div className="flex justify-start gap-3 mt-5"> {/* Increased Gap and Margin */}
+            <div className="flex justify-start gap-2 mt-4">
               <Button onClick={handleSaveAccount} disabled={!isAccountFormEditable}>
                 સેવ કરો
               </Button>
@@ -541,13 +542,13 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[350px] w-full rounded-md border mt-2"> {/* Increased Height, added Margin */}
-              <div className="p-4">
+            <ScrollArea className="h-[350px] w-full rounded-md border mt-2">
+              <div className="p-3">
                 {accounts.map((account) => (
                   <div
                     key={account.id}
                     className={cn(
-                      "cursor-pointer rounded-md p-3 hover:bg-secondary text-lg", /* Increased Padding and text size */
+                      "cursor-pointer rounded-md p-2 hover:bg-secondary",
                       selectedAccount?.id === account.id ? "bg-secondary" : ""
                     )}
                     onClick={() => setSelectedAccount(account)}
@@ -565,3 +566,4 @@ function AccountPage() {
 }
 
 export default AccountPage;
+    

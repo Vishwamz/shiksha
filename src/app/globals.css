@@ -1,9 +1,10 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Shruti, Arial, Helvetica, sans-serif; /* Set Gujarati Shruti font */
 }
 
 @layer base {
@@ -84,16 +85,18 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    font-family: ' Gujarati', sans-serif;
-    font-size: larger; /* Larger base font size */
+    font-family: 'Shruti', sans-serif;
+    font-size: 1rem; /* base font size - was larger */
   }
 
   label {
-    @apply text-base font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70; /* Slightly larger, bolder labels */
+    @apply text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70; /* Slightly larger, bolder labels */
   }
 
   input,
   textarea {
-    @apply flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-lg ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50; /* Larger input and text area */
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50; /* base input and text area */
   }
 }
+
+    

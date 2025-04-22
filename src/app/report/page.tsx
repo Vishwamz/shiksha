@@ -37,68 +37,68 @@ function ReportPage() {
   ];
 
   return (
-    <div className="p-6"> {/* Increased padding */}
-      <h1 className="text-3xl font-bold mb-6">રિપોર્ટ જનરેશન</h1>{/* Increased font size and margin */}
+    <div className="p-4 md:p-6">
+      <h1 className="text-2xl font-bold mb-4 md:mb-6">રિપોર્ટ જનરેશન</h1>
 
       {/* Account List */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">ખાતાની યાદી</h2>{/* Increased font size and margin */}
-        <div className="flex items-center space-x-3 mb-3"> {/* Increased space and margin */}
-          <Label htmlFor="accountListGroupName" className="text-lg">જુથનું નામ</Label>{/* Increased font size */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">ખાતાની યાદી</h2>
+        <div className="flex items-center space-x-3 mb-3">
+          <Label htmlFor="accountListGroupName" className="text-base">જુથનું નામ</Label>
           <Switch id="accountListGroupName" checked={accountListGroupName} onCheckedChange={(checked) => setAccountListGroupName(checked)} />
         </div>
-        <div className="flex items-center space-x-3 mb-4"> {/* Increased space and margin */}
-          <Label htmlFor="accountListAddress" className="text-lg">સરનામુ</Label>{/* Increased font size */}
+        <div className="flex items-center space-x-3 mb-4">
+          <Label htmlFor="accountListAddress" className="text-base">સરનામુ</Label>
           <Switch id="accountListAddress" checked={accountListAddress} onCheckedChange={(checked) => setAccountListAddress(checked)} />
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
 
       {/* Voucher Report */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">વાઉચર રિપોર્ટ</h2>{/* Increased font size and margin */}
-        <div className="mb-3"> {/* Increased margin */}
-          <Label htmlFor="voucherReportVoucherNo" className="text-lg">વાઉચર નં</Label>{/* Increased font size */}
-          <Input id="voucherReportVoucherNo" type="text" value={voucherReportVoucherNo} onChange={(e) => setVoucherReportVoucherNo(e.target.value)} className="text-lg" />{/* Increased font size */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">વાઉચર રિપોર્ટ</h2>
+        <div className="mb-3">
+          <Label htmlFor="voucherReportVoucherNo" className="text-base">વાઉચર નં</Label>
+          <Input id="voucherReportVoucherNo" type="text" value={voucherReportVoucherNo} onChange={(e) => setVoucherReportVoucherNo(e.target.value)} />
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
 
       {/* General Account Ledger */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">સામાન્ય ખાતાવહી</h2>{/* Increased font size and margin */}
-        <div className="mb-3"> {/* Increased margin */}
-          <Label htmlFor="generalAccountLedgerAccountName" className="text-lg">ખાતાનું નામ</Label>{/* Increased font size */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">સામાન્ય ખાતાવહી</h2>
+        <div className="mb-3">
+          <Label htmlFor="generalAccountLedgerAccountName" className="text-base">ખાતાનું નામ</Label>
           <Select onValueChange={(value) => setGeneralAccountLedgerAccountName(value)}>
-            <SelectTrigger className="text-lg">
+            <SelectTrigger>
               <SelectValue placeholder="એકાઉન્ટ પસંદ કરો" />
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
-                <SelectItem key={account.id} value={account.name} className="text-lg">{/* Increased font size */}
+                <SelectItem key={account.id} value={account.name}>
                   {account.name}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center space-x-3 mb-3"> {/* Increased space and margin */}
-          <Label htmlFor="generalAccountLedgerDetailPrinting" className="text-lg">વિગત પ્રિન્ટિંગ</Label>{/* Increased font size */}
+        <div className="flex items-center space-x-3 mb-3">
+          <Label htmlFor="generalAccountLedgerDetailPrinting" className="text-base">વિગત પ્રિન્ટિંગ</Label>
           <Switch id="generalAccountLedgerDetailPrinting" checked={generalAccountLedgerDetailPrinting} onCheckedChange={(checked) => setGeneralAccountLedgerDetailPrinting(checked)} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"> {/* Increased gap and margin */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
-            <Label htmlFor="generalAccountLedgerFromDate" className="text-lg">From Date</Label>{/* Increased font size */}
+            <Label htmlFor="generalAccountLedgerFromDate" className="text-base">From Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !generalAccountLedgerFromDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {generalAccountLedgerFromDate ? generalAccountLedgerFromDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -113,17 +113,17 @@ function ReportPage() {
             </Popover>
           </div>
           <div>
-            <Label htmlFor="generalAccountLedgerToDate" className="text-lg">To Date</Label>{/* Increased font size */}
+            <Label htmlFor="generalAccountLedgerToDate" className="text-base">To Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !generalAccountLedgerToDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {generalAccountLedgerToDate ? generalAccountLedgerToDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -138,25 +138,25 @@ function ReportPage() {
             </Popover>
           </div>
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
 
       {/* Day Book */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">રોજમેળ</h2>{/* Increased font size and margin */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"> {/* Increased gap and margin */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">રોજમેળ</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
-            <Label htmlFor="dayBookFromDate" className="text-lg">From Date</Label>{/* Increased font size */}
+            <Label htmlFor="dayBookFromDate" className="text-base">From Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !dayBookFromDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {dayBookFromDate ? dayBookFromDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -171,17 +171,17 @@ function ReportPage() {
             </Popover>
           </div>
           <div>
-            <Label htmlFor="dayBookToDate" className="text-lg">To Date</Label>{/* Increased font size */}
+            <Label htmlFor="dayBookToDate" className="text-base">To Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !dayBookToDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {dayBookToDate ? dayBookToDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -196,25 +196,25 @@ function ReportPage() {
             </Popover>
           </div>
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
 
       {/* Monthly Tarij */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">માસિક સરવાળા</h2>{/* Increased font size and margin */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"> {/* Increased gap and margin */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">માસિક સરવાળા</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
-            <Label htmlFor="monthlyTarijFromDate" className="text-lg">From Date</Label>{/* Increased font size */}
+            <Label htmlFor="monthlyTarijFromDate" className="text-base">From Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !monthlyTarijFromDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {monthlyTarijFromDate ? monthlyTarijFromDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -229,24 +229,24 @@ function ReportPage() {
             </Popover>
           </div>
           <div>
-            <Label htmlFor="monthlyTarijToDate" className="text-lg">To Date</Label>{/* Increased font size */}
+            <Label htmlFor="monthlyTarijToDate" className="text-base">To Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !monthlyTarijToDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {monthlyTarijToDate ? monthlyTarijToDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start" side="bottom">
                 <Calendar
                   mode="single"
-                  selected={monthlyTarijFromDate}
+                  selected={monthlyTarijToDate}
                   onSelect={setMonthlyTarijToDate}
                   // initialFocus
                 />
@@ -254,25 +254,25 @@ function ReportPage() {
             </Popover>
           </div>
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
 
       {/* Profit and loss Account */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">નફા નુકશાન ખાતુ</h2>{/* Increased font size and margin */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"> {/* Increased gap and margin */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">નફા નુકશાન ખાતુ</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
-            <Label htmlFor="profitLossAccountFromDate" className="text-lg">From Date</Label>{/* Increased font size */}
+            <Label htmlFor="profitLossAccountFromDate" className="text-base">From Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !profitLossAccountFromDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {profitLossAccountFromDate ? profitLossAccountFromDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -287,17 +287,17 @@ function ReportPage() {
             </Popover>
           </div>
           <div>
-            <Label htmlFor="profitLossAccountToDate" className="text-lg">To Date</Label>{/* Increased font size */}
+            <Label htmlFor="profitLossAccountToDate" className="text-base">To Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !profitLossAccountToDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {profitLossAccountToDate ? profitLossAccountToDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -312,25 +312,25 @@ function ReportPage() {
             </Popover>
           </div>
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
 
       {/* Balance Sheet */}
-      <div className="border rounded-md p-5 mb-5"> {/* Increased padding and margin */}
-        <h2 className="text-xl font-semibold mb-3">સરવૈયું</h2>{/* Increased font size and margin */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"> {/* Increased gap and margin */}
+      <div className="border rounded-md p-4 mb-4 md:mb-5">
+        <h2 className="text-xl font-semibold mb-3">સરવૈયું</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
-            <Label htmlFor="balanceSheetFromDate" className="text-lg">From Date</Label>{/* Increased font size */}
+            <Label htmlFor="balanceSheetFromDate" className="text-base">From Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !balanceSheetFromDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {balanceSheetFromDate ? balanceSheetFromDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -345,17 +345,17 @@ function ReportPage() {
             </Popover>
           </div>
           <div>
-            <Label htmlFor="balanceSheetToDate" className="text-lg">To Date</Label>{/* Increased font size */}
+            <Label htmlFor="balanceSheetToDate" className="text-base">To Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-12 text-lg",
+                    "w-full justify-start text-left font-normal h-10",
                     !balanceSheetToDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-5 w-5" />{/* Increased icon size */}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {balanceSheetToDate ? balanceSheetToDate?.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
@@ -370,10 +370,11 @@ function ReportPage() {
             </Popover>
           </div>
         </div>
-        <Button className="h-12 text-lg">બનાવો</Button>{/* Increased height and font size */}
+        <Button className="h-10">બનાવો</Button>
       </div>
     </div>
   );
 }
 
 export default ReportPage;
+    
