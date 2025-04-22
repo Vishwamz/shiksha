@@ -1,4 +1,4 @@
-;"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 import {Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarSeparator, SidebarTrigger} from '@/components/ui/sidebar';
@@ -64,3 +64,4 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     </SidebarProvider>
   );
 }
+
