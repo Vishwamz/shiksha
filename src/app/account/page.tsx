@@ -386,7 +386,7 @@ function AccountPage() {
             </div>
           </div>
           <div>
-            <ScrollArea className="h-[300px] w-full rounded-md border mt-2 mb-4">
+            <ScrollArea className="h-[200px] w-full rounded-md border mt-2 mb-4">
               <div className="p-3">
                 {accountGroups.map((group) => (
                   <div
