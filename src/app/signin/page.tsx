@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "@/lib/auth"; // Adjust path if necessary
 import { useRouter } from "next/navigation";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -12,11 +13,25 @@ function SignInPage() {
   const [financialYear, setFinancialYear] = useState("");
   const router = useRouter();
 
-  const handleSignIn = () => {
-    // Authentication logic here
+  const handleSignIn = async () => { // Make it async if auth is async
+    if (!username || !password || !financialYear) {
+      alert("Please fill in all fields."); // Or use a toast notification
+      return;
+    }
 
-    // Successful sign-in
-    router.push("/account");
+    const result = signIn(username, password);
+
+    if (result.success) {
+      // Store financial year in localStorage or a global state management solution
+      // For simplicity, using localStorage here.
+      // In Electron, you might prefer electron-store or IPC to main process for session data.
+      localStorage.setItem('financialYear', financialYear);
+      localStorage.setItem('isAuthenticated', 'true'); // Simple flag
+      router.push("/account");
+    } else {
+      alert(result.message); // Or use a toast notification
+      localStorage.removeItem('isAuthenticated');
+    }
   };
 
   return (
