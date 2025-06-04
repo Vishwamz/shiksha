@@ -1,6 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+    getAccountListReport,
+    getVoucherByVoucherNumber,
+    getGeneralLedger,
+    getDayBook,
+    getMonthlyTarij,
+    getProfitLoss,
+    getBalanceSheet,
+    getAllAccounts // For dropdown
+} from '@/lib/db';
+import { format } from 'date-fns';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -10,8 +22,14 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons"; // For spinner
 
 function ReportPage() {
+  const queryClient = useQueryClient();
+  const [reportData, setReportData] = useState<any>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // Form states (existing)
   const [accountListGroupName, setAccountListGroupName] = useState(false);
   const [accountListAddress, setAccountListAddress] = useState(false);
   const [voucherReportVoucherNo, setVoucherReportVoucherNo] = useState("");
@@ -28,13 +46,156 @@ function ReportPage() {
   const [balanceSheetFromDate, setBalanceSheetFromDate] = useState<Date | undefined>(undefined);
   const [balanceSheetToDate, setBalanceSheetToDate] = useState<Date | undefined>(undefined);
 
-  // Dummy Account List
-  const accounts = [
-    { id: 1, name: "Cash Account" },
-    { id: 2, name: "Bank Account" },
-    { id: 3, name: "Sales Account" },
-    { id: 4, name: "Purchase Account" },
-  ];
+  // Fetch accounts for dropdowns
+  const { data: accountsList = [], isLoading: isLoadingAccounts } = useQuery({
+      queryKey: ['allAccountsForReport'],
+      queryFn: getAllAccounts
+  });
+
+  const safeFormatDate = (date: Date | undefined) => {
+    if (!date) return '';
+    try {
+      return format(date, 'yyyy-MM-dd');
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return '';
+    }
+  };
+
+  const handleGenerateAccountList = async () => {
+      setIsGenerating(true);
+      setReportData(null);
+      try {
+          const data = await getAccountListReport(accountListGroupName, accountListAddress);
+          setReportData({ title: "ખાતાની યાદી", data });
+      } catch (error: any) {
+          console.error("Error generating account list:", error);
+          setReportData({ title: "ખાતાની યાદી", error: error.message });
+      } finally {
+          setIsGenerating(false);
+      }
+  };
+
+  const handleGenerateVoucherReport = async () => {
+    setIsGenerating(true);
+    setReportData(null);
+    if (!voucherReportVoucherNo.trim()) {
+        setReportData({ title: "વાઉચર રિપોર્ટ", error: "કૃપા કરીને વાઉચર નંબર દાખલ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    try {
+        const data = await getVoucherByVoucherNumber(voucherReportVoucherNo.trim());
+        setReportData({ title: `વાઉચર રિપોર્ટ: ${voucherReportVoucherNo}`, data });
+    } catch (error: any) {
+        setReportData({ title: `વાઉચર રિપોર્ટ: ${voucherReportVoucherNo}`, error: error.message });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateGeneralLedger = async () => {
+    setIsGenerating(true);
+    setReportData(null);
+    if (!generalAccountLedgerAccountName) {
+        setReportData({ title: "સામાન્ય ખાતાવહી", error: "કૃપા કરીને ખાતાનું નામ પસંદ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    if (!generalAccountLedgerFromDate || !generalAccountLedgerToDate) {
+        setReportData({ title: "સામાન્ય ખાતાવહી", error: "કૃપા કરીને From Date અને To Date પસંદ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    try {
+        const data = await getGeneralLedger(
+            generalAccountLedgerAccountName,
+            safeFormatDate(generalAccountLedgerFromDate),
+            safeFormatDate(generalAccountLedgerToDate)
+        );
+        setReportData({ title: `સામાન્ય ખાતાવહી: ${generalAccountLedgerAccountName}`, data });
+    } catch (error: any) {
+        setReportData({ title: `સામાન્ય ખાતાવહી: ${generalAccountLedgerAccountName}`, error: error.message });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateDayBook = async () => {
+    setIsGenerating(true);
+    setReportData(null);
+    if (!dayBookFromDate || !dayBookToDate) {
+        setReportData({ title: "રોજમેળ", error: "કૃપા કરીને From Date અને To Date પસંદ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    try {
+        const data = await getDayBook(safeFormatDate(dayBookFromDate), safeFormatDate(dayBookToDate));
+        setReportData({ title: "રોજમેળ", data });
+    } catch (error: any) {
+        setReportData({ title: "રોજમેળ", error: error.message });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateMonthlyTarij = async () => {
+    setIsGenerating(true);
+    setReportData(null);
+     if (!monthlyTarijFromDate || !monthlyTarijToDate) {
+        setReportData({ title: "માસિક સરવાળા", error: "કૃપા કરીને From Date અને To Date પસંદ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    try {
+        const data = await getMonthlyTarij(safeFormatDate(monthlyTarijFromDate), safeFormatDate(monthlyTarijToDate));
+        setReportData({ title: "માસિક સરવાળા", ...data });
+    } catch (error: any) {
+        setReportData({ title: "માસિક સરવાળા", error: error.message });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateProfitLoss = async () => {
+    setIsGenerating(true);
+    setReportData(null);
+    if (!profitLossAccountFromDate || !profitLossAccountToDate) {
+        setReportData({ title: "નફા નુકશાન ખાતુ", error: "કૃપા કરીને From Date અને To Date પસંદ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    try {
+        const data = await getProfitLoss(safeFormatDate(profitLossAccountFromDate), safeFormatDate(profitLossAccountToDate));
+        setReportData({ title: "નફા નુકશાન ખાતુ", ...data });
+    } catch (error: any) {
+        setReportData({ title: "નફા નુકશાન ખાતુ", error: error.message });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateBalanceSheet = async () => {
+    setIsGenerating(true);
+    setReportData(null);
+    if (!balanceSheetToDate) { // Balance sheet is typically "As on date"
+        setReportData({ title: "સરવૈયું", error: "કૃપા કરીને 'As on Date' પસંદ કરો." });
+        setIsGenerating(false);
+        return;
+    }
+    try {
+        const data = await getBalanceSheet(safeFormatDate(balanceSheetToDate));
+        setReportData({ title: "સરવૈયું", ...data });
+    } catch (error: any) {
+        setReportData({ title: "સરવૈયું", error: error.message });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  if (isLoadingAccounts) {
+    return <div className="flex justify-center items-center h-screen"><Icons.spinner className="h-8 w-8 animate-spin" /> Loading account data...</div>;
+  }
 
   return (
     <div className="p-4 md:p-6">
@@ -45,13 +206,15 @@ function ReportPage() {
         <h2 className="text-xl font-semibold mb-3">ખાતાની યાદી</h2>
         <div className="flex items-center space-x-3 mb-3">
           <Label htmlFor="accountListGroupName" className="text-base">જુથનું નામ</Label>
-          <Switch id="accountListGroupName" checked={accountListGroupName} onCheckedChange={(checked) => setAccountListGroupName(checked)} />
+          <Switch id="accountListGroupName" checked={accountListGroupName} onCheckedChange={setAccountListGroupName} />
         </div>
         <div className="flex items-center space-x-3 mb-4">
           <Label htmlFor="accountListAddress" className="text-base">સરનામુ</Label>
-          <Switch id="accountListAddress" checked={accountListAddress} onCheckedChange={(checked) => setAccountListAddress(checked)} />
+          <Switch id="accountListAddress" checked={accountListAddress} onCheckedChange={setAccountListAddress} />
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateAccountList} disabled={isGenerating} className="h-10">
+          {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
 
       {/* Voucher Report */}
@@ -61,7 +224,9 @@ function ReportPage() {
           <Label htmlFor="voucherReportVoucherNo" className="text-base">વાઉચર નં</Label>
           <Input id="voucherReportVoucherNo" type="text" value={voucherReportVoucherNo} onChange={(e) => setVoucherReportVoucherNo(e.target.value)} />
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateVoucherReport} disabled={isGenerating} className="h-10">
+         {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
 
       {/* General Account Ledger */}
@@ -69,14 +234,14 @@ function ReportPage() {
         <h2 className="text-xl font-semibold mb-3">સામાન્ય ખાતાવહી</h2>
         <div className="mb-3">
           <Label htmlFor="generalAccountLedgerAccountName" className="text-base">ખાતાનું નામ</Label>
-          <Select onValueChange={(value) => setGeneralAccountLedgerAccountName(value)}>
+          <Select value={generalAccountLedgerAccountName} onValueChange={setGeneralAccountLedgerAccountName}>
             <SelectTrigger>
               <SelectValue placeholder="એકાઉન્ટ પસંદ કરો" />
             </SelectTrigger>
             <SelectContent>
-              {accounts.map((account) => (
+              {accountsList.map((account: any) => (
                 <SelectItem key={account.id} value={account.name}>
-                  {account.name}
+                  {account.name} ({account.code})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -84,7 +249,7 @@ function ReportPage() {
         </div>
         <div className="flex items-center space-x-3 mb-3">
           <Label htmlFor="generalAccountLedgerDetailPrinting" className="text-base">વિગત પ્રિન્ટિંગ</Label>
-          <Switch id="generalAccountLedgerDetailPrinting" checked={generalAccountLedgerDetailPrinting} onCheckedChange={(checked) => setGeneralAccountLedgerDetailPrinting(checked)} />
+          <Switch id="generalAccountLedgerDetailPrinting" checked={generalAccountLedgerDetailPrinting} onCheckedChange={setGeneralAccountLedgerDetailPrinting} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
@@ -131,14 +296,18 @@ function ReportPage() {
                 <Calendar
                   mode="single"
                   selected={generalAccountLedgerToDate}
-                  onSelect={setGeneralAccountLedgerToDate}
-                  // initialFocus
+                    onSelect={setGeneralAccountLedgerFromDate}
+                    initialFocus
+                    onSelect={setGeneralAccountLedgerToDate}
+                    initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateGeneralLedger} disabled={isGenerating} className="h-10">
+         {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
 
       {/* Day Book */}
@@ -189,14 +358,18 @@ function ReportPage() {
                 <Calendar
                   mode="single"
                   selected={dayBookToDate}
-                  onSelect={setDayBookToDate}
-                  // initialFocus
+                    onSelect={setDayBookFromDate}
+                    initialFocus
+                    onSelect={setDayBookToDate}
+                    initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateDayBook} disabled={isGenerating} className="h-10">
+         {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
 
       {/* Monthly Tarij */}
@@ -247,14 +420,19 @@ function ReportPage() {
                 <Calendar
                   mode="single"
                   selected={monthlyTarijFromDate}
-                  onSelect={setMonthlyTarijToDate}
-                  // initialFocus
+                    onSelect={setMonthlyTarijFromDate}
+                    initialFocus
+                    selected={monthlyTarijToDate}
+                    onSelect={setMonthlyTarijToDate}
+                    initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateMonthlyTarij} disabled={isGenerating} className="h-10">
+         {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
 
       {/* Profit and loss Account */}
@@ -305,14 +483,19 @@ function ReportPage() {
                 <Calendar
                   mode="single"
                   selected={profitLossAccountFromDate}
-                  onSelect={setProfitLossAccountToDate}
-                  // initialFocus
+                    onSelect={setProfitLossAccountFromDate}
+                    initialFocus
+                    selected={profitLossAccountToDate}
+                    onSelect={setProfitLossAccountToDate}
+                    initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateProfitLoss} disabled={isGenerating} className="h-10">
+         {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
 
       {/* Balance Sheet */}
@@ -320,8 +503,8 @@ function ReportPage() {
         <h2 className="text-xl font-semibold mb-3">સરવૈયું</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
-            <Label htmlFor="balanceSheetFromDate" className="text-base">From Date</Label>
-            <Popover>
+            <Label htmlFor="balanceSheetFromDate" className="text-base">From Date (Not typically used for B/S)</Label>
+             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -338,14 +521,14 @@ function ReportPage() {
                 <Calendar
                   mode="single"
                   selected={balanceSheetFromDate}
-                  onSelect={setBalanceSheetToDate}
-                  // initialFocus
+                  onSelect={setBalanceSheetFromDate}
+                  initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
           <div>
-            <Label htmlFor="balanceSheetToDate" className="text-base">To Date</Label>
+            <Label htmlFor="balanceSheetToDate" className="text-base">As on Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -362,16 +545,28 @@ function ReportPage() {
               <PopoverContent className="w-auto p-0" align="start" side="bottom">
                 <Calendar
                   mode="single"
-                  selected={balanceSheetFromDate}
+                  selected={balanceSheetToDate}
                   onSelect={setBalanceSheetToDate}
-                  // initialFocus
+                  initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
-        <Button className="h-10">બનાવો</Button>
+        <Button onClick={handleGenerateBalanceSheet} disabled={isGenerating} className="h-10">
+         {isGenerating ? <><Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> Generating...</> : "બનાવો"}
+        </Button>
       </div>
+
+      {/* Report Display Area */}
+      {reportData && (
+        <div className="mt-6 p-4 border rounded-md bg-gray-50">
+          <h3 className="text-lg font-semibold mb-2">{reportData.title}</h3>
+          {reportData.error && <p className="text-red-500">{reportData.error}</p>}
+          {reportData.data && <pre className="text-sm overflow-x-auto bg-white p-2 rounded">{JSON.stringify(reportData.data, null, 2)}</pre>}
+          {reportData.message && <p className="text-blue-600">{reportData.message}</p>}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    getAllAccountGroups, addAccountGroup, updateAccountGroup, deleteAccountGroup, getNextAccountGroupCode,
+    getAllAccounts, addAccount, updateAccount, deleteAccount, getNextAccountCode
+} from '@/lib/db'; // Adjust path
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -13,29 +18,98 @@ import { Icons } from "@/components/icons";
 
 function AccountPage() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  // State variables for Account Group
-  const [accountGroups, setAccountGroups] = useState([
-    { id: 1, code: 1, name: "Cash-in-hand", type: "Primary Group" },
-    { id: 2, code: 2, name: "Bank A/c", type: "Primary Group" },
-    { id: 3, code: 3, name: "Capital A/c", type: "Primary Group" },
-    { id: 4, code: 4, name: "Expenses Direct", type: "Derived Group" },
-  ]);
-  const [selectedAccountGroup, setSelectedAccountGroup] = useState(null);
+  // For Account Groups
+  const { data: accountGroups = [], isLoading: isLoadingGroups, error: errorGroups } = useQuery({
+      queryKey: ['accountGroups'],
+      queryFn: getAllAccountGroups
+  });
+
+  const { data: nextGroupCodeData } = useQuery({
+      queryKey: ['nextAccountGroupCode'],
+      queryFn: getNextAccountGroupCode,
+      initialData: 1 // Or fetch initially then keep in component state
+  });
+
+  const [selectedAccountGroup, setSelectedAccountGroup] = useState<any>(null); // Consider defining a type for AccountGroup
   const [groupName, setGroupName] = useState("");
   const [groupType, setGroupType] = useState("");
   const [isGroupFormEditable, setIsGroupFormEditable] = useState(false);
-  const [latestGroupCode, setLatestGroupCode] = useState(accountGroups.length > 0 ? Math.max(...accountGroups.map(g => g.code)) : 0); // Initialize with the highest existing code
 
-  // State variables for Account Master
-  const [accounts, setAccounts] = useState([
-    { id: 1, code: 1, group: "Cash-in-hand", name: "Account name 1", type: "રોકડ ખાતુ", effect: "નફા નુકશાન પત્રકમાં", openingBalance: 1000, address: "Address 1", phone: "+91-1234567890" },
-    { id: 2, code: 2, group: "Bank A/c", name: "Account name 2", type: "બેંક ખાતુ", effect: "સરવૈયામાં", openingBalance: 2000, address: "Address 2", phone: "+91-9876543210" },
-    { id: 3, code: 3, group: "Capital A/c", name: "Account name 3", type: "અન્ય ખાતુ", effect: "નફા નુકશાન પત્રકમાં", openingBalance: 3000, address: "Address 3", phone: "+91-1122334455" },
-    { id: 4, code: 4, group: "Expenses Direct", name: "Account name 4", type: "વ્યક્તિ/વેપારી ખાતુ", effect: "સરવૈયામાં", openingBalance: 4000, address: "Address 4", phone: "+91-6677889900" },
-  ]);
-  const [selectedAccount, setSelectedAccount] = useState(null);
-  const [accountGroup, setAccountGroup] = useState("");
+  const newGroupCode = selectedAccountGroup ? selectedAccountGroup.code : (nextGroupCodeData || (accountGroups.length > 0 ? Math.max(0, ...accountGroups.map(g => g.code)) + 1 : 1)) ;
+
+  const [latestGroupCode, setLatestGroupCode] = useState(0);
+   useEffect(() => {
+        if (accountGroups && accountGroups.length > 0) {
+            setLatestGroupCode(Math.max(...accountGroups.map(g => g.code), 0));
+        } else if (nextGroupCodeData) {
+            setLatestGroupCode(nextGroupCodeData -1);
+        }
+   }, [accountGroups, nextGroupCodeData]);
+
+
+  const addGroupMutation = useMutation({
+      mutationFn: addAccountGroup,
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accountGroups'] });
+          queryClient.invalidateQueries({ queryKey: ['nextAccountGroupCode'] });
+          toast({ title: "સફળ", description: "નવું એકાઉન્ટ જૂથ સફળતાપૂર્વક ઉમેરાયું." });
+          setIsGroupFormEditable(false);
+          setGroupName("");
+          setGroupType("");
+          setSelectedAccountGroup(null);
+      },
+      onError: (error: any) => {
+          toast({ variant: "destructive", title: "ભૂલ", description: error.message });
+      }
+  });
+
+  const updateGroupMutation = useMutation({
+      mutationFn: (variables: { id: number; data: { name: string; type: string } }) => updateAccountGroup(variables.id, variables.data),
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accountGroups'] });
+          toast({ title: "સફળ", description: "એકાઉન્ટ જૂથ સફળતાપૂર્વક અપડેટ થયું." });
+          setIsGroupFormEditable(false);
+          setSelectedAccountGroup(null);
+          setGroupName("");
+          setGroupType("");
+      },
+      onError: (error: any) => {
+          toast({ variant: "destructive", title: "ભૂલ", description: error.message });
+      }
+  });
+
+  const deleteGroupMutation = useMutation({
+       mutationFn: deleteAccountGroup,
+       onSuccess: () => {
+           queryClient.invalidateQueries({ queryKey: ['accountGroups'] });
+           queryClient.invalidateQueries({ queryKey: ['accounts'] }); // In case group name is used in accounts list
+           queryClient.invalidateQueries({ queryKey: ['nextAccountGroupCode'] });
+           toast({ title: "સફળ", description: "એકાઉન્ટ જૂથ સફળતાપૂર્વક ડિલીટ થયું." });
+           setSelectedAccountGroup(null);
+           setGroupName("");
+           setGroupType("");
+       },
+       onError: (error: any) => {
+           toast({ variant: "destructive", title: "ભૂલ", description: error.message });
+       }
+  });
+
+  // --- Account Master State & Mutations ---
+  const { data: accounts = [], isLoading: isLoadingAccounts, error: errorAccounts } = useQuery({
+    queryKey: ['accounts'],
+    queryFn: getAllAccounts
+  });
+
+  const { data: nextAccountCodeData } = useQuery({
+      queryKey: ['nextAccountCode'],
+      queryFn: getNextAccountCode,
+      initialData: 1
+  });
+
+  const [selectedAccount, setSelectedAccount] = useState<any>(null);
+  const [accountGroup, setAccountGroup] = useState(""); // Stores selected group NAME for the account form
   const [accountName, setAccountName] = useState("");
   const [accountType, setAccountType] = useState("");
   const [accountEffect, setAccountEffect] = useState("");
@@ -43,17 +117,50 @@ function AccountPage() {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [isAccountFormEditable, setIsAccountFormEditable] = useState(false);
-    const [latestAccountCode, setLatestAccountCode] = useState(accounts.length > 0 ? Math.max(...accounts.map(a => a.code)) : 0);
+
+  const newAccountCode = selectedAccount ? selectedAccount.code : (nextAccountCodeData || (accounts.length > 0 ? Math.max(0, ...accounts.map((a:any) => a.code)) + 1 : 1));
+
+  const addAccountMutation = useMutation({
+      mutationFn: addAccount,
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accounts'] });
+          queryClient.invalidateQueries({ queryKey: ['nextAccountCode'] });
+          toast({ title: "સફળ", description: "નવું એકાઉન્ટ સફળતાપૂર્વક ઉમેરાયું." });
+          resetAccountForm();
+      },
+      onError: (error: any) => {
+          toast({ variant: "destructive", title: "ભૂલ", description: error.message });
+      }
+  });
+
+  const updateAccountMutation = useMutation({
+      mutationFn: (variables: { id: number; data: any }) => updateAccount(variables.id, variables.data),
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accounts'] });
+          toast({ title: "સફળ", description: "એકાઉન્ટ સફળતાપૂર્વક અપડેટ થયું." });
+          resetAccountForm();
+      },
+      onError: (error: any) => {
+          toast({ variant: "destructive", title: "ભૂલ", description: error.message });
+      }
+  });
+
+  const deleteAccountMutation = useMutation({
+      mutationFn: deleteAccount,
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accounts'] });
+          queryClient.invalidateQueries({ queryKey: ['nextAccountCode'] });
+          toast({ title: "સફળ", description: "એકાઉન્ટ સફળતાપૂર્વક ડિલીટ થયું." });
+          resetAccountForm();
+      },
+      onError: (error: any) => {
+          toast({ variant: "destructive", title: "ભૂલ", description: error.message });
+      }
+  });
 
   // Validation error state
   const [groupNameError, setGroupNameError] = useState("");
   const [accountNameError, setAccountNameError] = useState("");
-
-  // Derived state for new group code
-  const newGroupCode = latestGroupCode + 1;
-
-  // Derived state for new account code
-  const newAccountCode = latestAccountCode + 1;
 
   // Account Group Handlers
   const handleAddGroup = () => {
@@ -75,97 +182,72 @@ function AccountPage() {
   };
 
   const handleSaveGroup = () => {
-    // Validate Group Name
     if (!groupName) {
       setGroupNameError("જૂથનું નામ જરૂરી છે.");
       return;
     }
-    if (accountGroups.some((group) => group.name === groupName && group !== selectedAccountGroup)) {
-      setGroupNameError("આ જૂથનું નામ પહેલેથી જ અસ્તિત્વમાં છે.");
-      return;
+    setGroupNameError(""); // Clear error if validation passes
+
+    // Check for duplicate name client-side (optional, as DB has UNIQUE constraint)
+    if (accountGroups.some((group: any) => group.name === groupName && group.id !== selectedAccountGroup?.id)) {
+        setGroupNameError("આ જૂથનું નામ પહેલેથી જ અસ્તિત્વમાં છે.");
+        return;
     }
 
-    if (isGroupFormEditable) {
-      if (selectedAccountGroup) {
-        // Editing existing group
-        const updatedGroups = accountGroups.map((group) =>
-          group.id === selectedAccountGroup.id ? { ...group, name: groupName, type: groupType } : group
-        );
-        setAccountGroups(updatedGroups);
-        toast({
-          title: "સફળ",
-          description: "એકાઉન્ટ જૂથ સફળતાપૂર્વક અપડેટ થયું.",
-        });
-      } else {
-        // Adding new group
-        const newGroup = {
-          id: newGroupCode,
-          code: newGroupCode,
-          name: groupName,
-          type: groupType,
-        };
-        setAccountGroups([...accountGroups, newGroup]);
-        setLatestGroupCode(newGroupCode); // Update latest code
-        toast({
-          title: "સફળ",
-          description: "નવું એકાઉન્ટ જૂથ સફળતાપૂર્વક ઉમેરાયું.",
-        });
-      }
-      setIsGroupFormEditable(false);
-      setSelectedAccountGroup(null);
+    if (selectedAccountGroup) {
+      updateGroupMutation.mutate({ id: selectedAccountGroup.id, data: { name: groupName, type: groupType } });
+    } else {
+      addGroupMutation.mutate({ name: groupName, type: groupType, code: newGroupCode });
     }
   };
 
   const handleCancelGroup = () => {
     setIsGroupFormEditable(false);
     setGroupNameError("");
-    setSelectedAccountGroup(null);
     if (selectedAccountGroup) {
-      setGroupName(selectedAccountGroup.name);
-      setGroupType(selectedAccountGroup.type);
+        // If editing, revert to selected group's data
+        setGroupName(selectedAccountGroup.name);
+        setGroupType(selectedAccountGroup.type);
     } else {
-      setGroupName("");
-      setGroupType("");
+        // If adding, clear fields
+        setGroupName("");
+        setGroupType("");
     }
+    setSelectedAccountGroup(null); // Deselect group
   };
 
   const handleDeleteGroup = (groupId: number) => {
-    // Check if any accounts are linked to this group
-    const linkedAccounts = accounts.filter((account) => account.group === selectedAccountGroup?.name);
-    if (linkedAccounts.length > 0) {
-      toast({
-        variant: "destructive",
-        title: "સૂચના",
-        description: "આ એકાઉન્ટ જૂથને ડિલીટ કરી શકાતું નથી કેમ કે એકાઉન્ટ્સ જોડાયેલા છે.",
-      });
-      return false;
-    } else {
-      setAccountGroups(accountGroups.filter((group) => group.id !== groupId));
-      setSelectedAccountGroup(null);
-      toast({
-        title: "સફળ",
-        description: "એકાઉન્ટ જૂથ સફળતાપૂર્વક ડિલીટ થયું.",
-      });
-      return true;
-    }
+    deleteGroupMutation.mutate(groupId);
   };
 
-  // Account Master Handlers
+  // --- Account Master Helper Functions ---
+  const resetAccountForm = () => {
+      setIsAccountFormEditable(false);
+      setSelectedAccount(null);
+      setAccountName("");
+      setAccountGroup(""); // This should be the group NAME
+      setAccountType("");
+      setAccountEffect("");
+      setOpeningBalance("");
+      setAddress("");
+      setPhone("");
+      setAccountNameError("");
+  };
+
+  // --- Account Master Handlers ---
   const handleAddAccount = () => {
+    resetAccountForm();
     setIsAccountFormEditable(true);
-    setAccountGroup("");
-    setAccountName("");
-    setAccountType("");
-    setAccountEffect("");
-    setOpeningBalance("");
-    setAddress("");
-    setPhone("");
-    setSelectedAccount(null);
+    // Optional: Pre-select first account group if available
+    // if (accountGroups && accountGroups.length > 0) {
+    //    setAccountGroup(accountGroups[0].name);
+    // }
   };
 
   const handleEditAccount = () => {
     if (selectedAccount) {
       setIsAccountFormEditable(true);
+      // Form fields are populated by useEffect watching selectedAccount
     } else {
       toast({
         title: "સૂચના",
@@ -175,135 +257,101 @@ function AccountPage() {
   };
 
   const handleSaveAccount = () => {
-    if (!accountName) {
+    if (!accountName.trim()) {
       setAccountNameError("ખાતાનું નામ જરૂરી છે.");
       return;
     }
-    if (accounts.some((account) => account.name === accountName && account !== selectedAccount)) {
-      setAccountNameError("આ ખાતાનું નામ પહેલેથી જ અસ્તિત્વમાં છે.");
-      return;
+    if (!accountGroup) { // accountGroup stores the group NAME
+        toast({ variant: "destructive", title: "ભૂલ", description: "કૃપા કરીને એકાઉન્ટ જૂથ પસંદ કરો."});
+        return;
+    }
+    setAccountNameError("");
+
+    // Client-side check for duplicate account name (optional, as DB has UNIQUE constraint)
+    if (accounts.some((acc: any) => acc.name === accountName.trim() && acc.id !== selectedAccount?.id)) {
+        setAccountNameError("આ ખાતાનું નામ પહેલેથી જ અસ્તિત્વમાં છે.");
+        return;
     }
 
-    if (isAccountFormEditable) {
-      if (selectedAccount) {
-        // Editing existing account
-        const updatedAccounts = accounts.map((account) =>
-          account.id === selectedAccount.id
-            ? {
-                ...account,
-                group: accountGroup,
-                name: accountName,
-                type: accountType,
-                effect: accountEffect,
-                openingBalance: openingBalance,
-                address: address,
-                phone: phone,
-              }
-            : account
-        );
-        setAccounts(updatedAccounts);
-                setLatestAccountCode(latestAccountCode)
-        toast({
-          title: "સફળ",
-          description: "એકાઉન્ટ સફળતાપૂર્વક અપડેટ થયું.",
-        });
-      } else {
-        // Adding new account
-        const newAccount = {
-          id: newAccountCode,
-          code: newAccountCode,
-          group: accountGroup,
-          name: accountName,
-          type: accountType,
-          effect: accountEffect,
-          openingBalance: openingBalance,
-          address: address,
-          phone: phone,
-        };
-        setAccounts([...accounts, newAccount]);
-        setLatestAccountCode(newAccountCode);
-        toast({
-          title: "સફળ",
-          description: "નવું એકાઉન્ટ સફળતાપૂર્વક ઉમેરાયું.",
-        });
-      }
-      setIsAccountFormEditable(false);
-      setSelectedAccount(null);
+    const accountData = {
+        group_name: accountGroup, // This is the group NAME
+        name: accountName.trim(),
+        type: accountType,
+        effect: accountEffect,
+        opening_balance: parseFloat(openingBalance) || 0,
+        address: address.trim(),
+        phone: phone.trim(),
+        code: selectedAccount ? selectedAccount.code : newAccountCode
+    };
+
+    if (selectedAccount) {
+      updateAccountMutation.mutate({ id: selectedAccount.id, data: accountData });
+    } else {
+      addAccountMutation.mutate(accountData);
     }
   };
 
   const handleCancelAccount = () => {
-    setIsAccountFormEditable(false);
-    setAccountNameError("");
-    setSelectedAccount(null);
-    if (selectedAccount) {
-      setAccountGroup(selectedAccount.group);
-      setAccountName(selectedAccount.name);
-      setAccountType(selectedAccount.type);
-      setAccountEffect(selectedAccount.effect);
-      setOpeningBalance(selectedAccount.openingBalance);
-      setAddress(selectedAccount.address);
-      setPhone(selectedAccount.phone);
-    } else {
-      setAccountGroup("");
-      setAccountName("");
-      setAccountType("");
-      setAccountEffect("");
-      setOpeningBalance("");
-      setAddress("");
-      setPhone("");
-    }
+    resetAccountForm();
   };
 
   const handleDeleteAccount = (accountId: number) => {
-    // Check if any vouchers are linked to this account
-    // This is a placeholder for actual voucher link checking logic
-    const isVoucherLinked = false; // Replace with actual check
-
-    if (isVoucherLinked) {
-      toast({
-        variant: "destructive",
-        title: "સૂચના",
-        description: "આ એકાઉન્ટને ડિલીટ કરી શકાતું નથી કેમ કે વાઉચર્સ જોડાયેલા છે.",
-      });
-      return false;
-    } else {
-      setAccounts(accounts.filter((account) => account.id !== accountId));
-      setSelectedAccount(null);
-      toast({
-        title: "સફળ",
-        description: "એકાઉન્ટ સફળતાપૂર્વક ડિલીટ થયું.",
-      });
-      return true;
-    }
+    deleteAccountMutation.mutate(accountId);
   };
 
+  // --- useEffect hooks ---
   useEffect(() => {
     if (selectedAccountGroup) {
       setGroupName(selectedAccountGroup.name);
       setGroupType(selectedAccountGroup.type);
+    } else {
+        // When deselecting or adding new, clear form
+        if (!isGroupFormEditable) { // only clear if not in edit mode for a new item
+            setGroupName("");
+            setGroupType("");
+        }
     }
-  }, [selectedAccountGroup]);
+  }, [selectedAccountGroup, isGroupFormEditable]);
 
   useEffect(() => {
-    if (selectedAccount) {
-      setAccountGroup(selectedAccount.group);
+    if (selectedAccount && isAccountFormEditable) {
+      setAccountGroup(selectedAccount.group_name); // Populate with group_name
       setAccountName(selectedAccount.name);
-      setAccountType(selectedAccount.type);
-      setAccountEffect(selectedAccount.effect);
-      setOpeningBalance(selectedAccount.openingBalance);
-      setAddress(selectedAccount.address);
-      setPhone(selectedAccount.phone);
+      setAccountType(selectedAccount.type || "");
+      setAccountEffect(selectedAccount.effect || "");
+      setOpeningBalance(selectedAccount.opening_balance?.toString() || "0");
+      setAddress(selectedAccount.address || "");
+      setPhone(selectedAccount.phone || "");
+    } else if (!selectedAccount && !isAccountFormEditable) {
+        // This case is mostly handled by resetAccountForm in cancel/success of mutations
+        // but good for explicit deselection if that's a feature.
+         resetAccountForm();
     }
-  }, [selectedAccount]);
+  }, [selectedAccount, isAccountFormEditable]);
 
-    useEffect(() => {
-        setLatestGroupCode(accountGroups.length > 0 ? Math.max(...accountGroups.map(g => g.code)) : 0);
-    }, [accountGroups]);
 
-    useEffect(() => {
-        setLatestAccountCode(accounts.length > 0 ? Math.max(...accounts.map(a => a.code)) : 0);
-    }, [accounts]);
+    // Commented out, as newGroupCode is now derived from nextGroupCodeData or accountGroups
+    // useEffect(() => {
+    //     setLatestGroupCode(accountGroups.length > 0 ? Math.max(...accountGroups.map(g => g.code)) : 0);
+    // }, [accountGroups]);
+
+    // Commented out, as newAccountCode is derived from nextAccountCodeData or accounts
+    // useEffect(() => {
+    //     setLatestAccountCode(accounts.length > 0 ? Math.max(...accounts.map((a:any) => a.code)) : 0);
+    // }, [accounts]);
+
+
+  if (isLoadingGroups || isLoadingAccounts) {
+    return (
+        <div className="flex justify-center items-center h-screen">
+            <Icons.spinner className="h-12 w-12 animate-spin" />
+            <p className="ml-2">લોડિંગ...</p>
+        </div>
+    );
+  }
+
+  if (errorGroups) return <p>Error loading account groups: {(errorGroups as Error).message}</p>;
+  if (errorAccounts) return <p>Error loading accounts: {(errorAccounts as Error).message}</p>;
 
   return (
     <div className="flex flex-col min-h-screen p-4"> {/* Added padding to the main container */}
@@ -316,7 +364,7 @@ function AccountPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Responsive grid layout with gap */}
           <div className="flex flex-col gap-3">
             <Label htmlFor="groupCode">જુથનો કોડ</Label>
-            <Input id="groupCode" type="text" value={newGroupCode} disabled />
+            <Input id="groupCode" type="text" value={isGroupFormEditable && !selectedAccountGroup ? newGroupCode : selectedAccountGroup?.code || newGroupCode} disabled />
 
             <Label htmlFor="groupName">જુથનું નામ</Label>
             <Input
@@ -330,9 +378,13 @@ function AccountPage() {
             {groupNameError && <p className="text-red-500 text-sm">{groupNameError}</p>}
 
             <Label htmlFor="groupType">જુથનો પ્રકાર</Label>
-            <Select disabled={!isGroupFormEditable} onValueChange={(value) => setGroupType(value)}>
+            <Select
+                value={groupType}
+                onValueChange={(value) => setGroupType(value)}
+                disabled={!isGroupFormEditable}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="જૂથનો પ્રકાર પસંદ કરો" defaultValue={groupType}/>
+                <SelectValue placeholder="જૂથનો પ્રકાર પસંદ કરો" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Primary Group">Primary Group</SelectItem>
@@ -343,8 +395,9 @@ function AccountPage() {
             <div className="flex justify-start gap-2 mt-4">
               <Button
                 onClick={handleSaveGroup}
-                disabled={!isGroupFormEditable}
+                disabled={!isGroupFormEditable || addGroupMutation.isPending || updateGroupMutation.isPending}
               >
+                {addGroupMutation.isPending || updateGroupMutation.isPending ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                 સેવ કરો
               </Button>
               <Button
@@ -356,7 +409,8 @@ function AccountPage() {
               </Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive" disabled={isGroupFormEditable || !selectedAccountGroup}>
+                  <Button variant="destructive" disabled={isGroupFormEditable || !selectedAccountGroup || deleteGroupMutation.isPending}>
+                    {deleteGroupMutation.isPending ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                     કાઢી નાખો
                   </Button>
                 </AlertDialogTrigger>
@@ -388,16 +442,20 @@ function AccountPage() {
           <div>
             <ScrollArea className="h-[220px] w-full rounded-md border mt-2">
               <div className="p-3">
-                {accountGroups.map((group) => (
+                {accountGroups && accountGroups.map((group: any) => ( // Added type for group
                   <div
                     key={group.id}
                     className={cn(
                       "cursor-pointer rounded-md p-2 hover:bg-secondary",
                       selectedAccountGroup?.id === group.id ? "bg-secondary" : ""
                     )}
-                    onClick={() => setSelectedAccountGroup(group)}
+                    onClick={() => {
+                        if (!isGroupFormEditable) {
+                            setSelectedAccountGroup(group);
+                        }
+                    }}
                   >
-                    {group.name}
+                    {group.code} - {group.name} ({group.type})
                   </div>
                 ))}
               </div>
@@ -407,25 +465,29 @@ function AccountPage() {
       </div>
 
       {/* Account Master Section */}
-      <div className="border rounded-md mb-4 p-4 bg-card"> {/* Increased padding and margin */}
+      <div className="border rounded-md mb-4 p-4 bg-card">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">એકાઉન્ટ માસ્ટર</h2>
-          <Button onClick={handleAddAccount} disabled={isAccountFormEditable}>નવું ઉમેરો</Button>
+          <Button onClick={handleAddAccount} disabled={isAccountFormEditable || addAccountMutation.isPending || updateAccountMutation.isPending}>નવું ઉમેરો</Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Responsive grid layout with gap */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-3">
             <Label htmlFor="accountCode">ખાતાનો કોડ</Label>
-            <Input id="accountCode" type="text" value={newAccountCode} disabled />
+            <Input id="accountCode" type="text" value={isAccountFormEditable && !selectedAccount ? newAccountCode : selectedAccount?.code || newAccountCode} disabled />
 
             <Label htmlFor="accountGroup">જુથનું નામ</Label>
-            <Select disabled={!isAccountFormEditable} onValueChange={(value) => setAccountGroup(value)}>
+            <Select
+                value={accountGroup} // This should be group_name
+                onValueChange={(value) => setAccountGroup(value)}
+                disabled={!isAccountFormEditable}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="જૂથનું નામ પસંદ કરો" defaultValue={accountGroup} />
+                <SelectValue placeholder="જૂથનું નામ પસંદ કરો" />
               </SelectTrigger>
               <SelectContent>
                 <ScrollArea className="max-h-64">
-                  {accountGroups.map((group) => (
-                    <SelectItem key={group.id} value={group.name}>
+                  {accountGroups && accountGroups.map((group: any) => (
+                    <SelectItem key={group.id} value={group.name}> {/* Ensure value is group.name */}
                       {group.name}
                     </SelectItem>
                   ))}
@@ -445,9 +507,13 @@ function AccountPage() {
             {accountNameError && <p className="text-red-500 text-sm">{accountNameError}</p>}
 
             <Label htmlFor="accountType">ખાતાનો પ્રકાર</Label>
-            <Select disabled={!isAccountFormEditable} onValueChange={(value) => setAccountType(value)}>
+            <Select
+                value={accountType}
+                onValueChange={(value) => setAccountType(value)}
+                disabled={!isAccountFormEditable}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="ખાતાનો પ્રકાર પસંદ કરો" defaultValue={accountType} />
+                <SelectValue placeholder="ખાતાનો પ્રકાર પસંદ કરો" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="વ્યક્તિ/વેપારી ખાતુ">વ્યક્તિ/વેપારી ખાતુ</SelectItem>
@@ -458,9 +524,13 @@ function AccountPage() {
             </Select>
 
             <Label htmlFor="accountEffect">ખાતાની અસર</Label>
-            <Select disabled={!isAccountFormEditable} onValueChange={(value) => setAccountEffect(value)}>
+            <Select
+                value={accountEffect}
+                onValueChange={(value) => setAccountEffect(value)}
+                disabled={!isAccountFormEditable}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="ખાતાની અસર પસંદ કરો" defaultValue={accountEffect} />
+                <SelectValue placeholder="ખાતાની અસર પસંદ કરો" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="નફા નુકશાન પત્રકમાં">નફા નુકશાન પત્રકમાં</SelectItem>
@@ -499,7 +569,11 @@ function AccountPage() {
             />
 
             <div className="flex justify-start gap-2 mt-4">
-              <Button onClick={handleSaveAccount} disabled={!isAccountFormEditable}>
+              <Button
+                onClick={handleSaveAccount}
+                disabled={!isAccountFormEditable || addAccountMutation.isPending || updateAccountMutation.isPending}
+              >
+                {addAccountMutation.isPending || updateAccountMutation.isPending ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                 સેવ કરો
               </Button>
               <Button
@@ -511,7 +585,11 @@ function AccountPage() {
               </Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive" disabled={isAccountFormEditable || !selectedAccount}>
+                  <Button
+                    variant="destructive"
+                    disabled={isAccountFormEditable || !selectedAccount || deleteAccountMutation.isPending}
+                  >
+                    {deleteAccountMutation.isPending ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                     કાઢી નાખો
                   </Button>
                 </AlertDialogTrigger>
@@ -543,16 +621,20 @@ function AccountPage() {
           <div>
             <ScrollArea className="h-[380px] w-full rounded-md border mt-2 mb-4">
               <div className="p-3">
-                {accounts.map((account) => (
+                {accounts && accounts.map((acc: any) => (
                   <div
-                    key={account.id}
+                    key={acc.id}
                     className={cn(
                       "cursor-pointer rounded-md p-2 hover:bg-secondary",
-                      selectedAccount?.id === account.id ? "bg-secondary" : ""
+                      selectedAccount?.id === acc.id ? "bg-secondary" : ""
                     )}
-                    onClick={() => setSelectedAccount(account)}
+                    onClick={() => {
+                        if (!isAccountFormEditable) { // Allow selection only if form is not in edit mode
+                           setSelectedAccount(acc);
+                        }
+                    }}
                   >
-                    {account.name}
+                    {acc.code} - {acc.name} ({acc.group_name})
                   </div>
                 ))}
               </div>
